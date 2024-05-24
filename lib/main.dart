@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,18 +24,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
 
   final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +38,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-        title: Text(widget.title),
+        title: Text(title),
       ),
-      body: const Center(
-
-        child: Column(
-
+      body:  Center(
+        child: ElevatedButton(
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => login()));
+            },
+            child: Text("Ir a Inicia Sesión"),
+        ),
+       /*child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'Aquí va estar una chingonada de App 🤠',
             ),
           ],
-        ),
-      ),
+        ),*/
+     ),
     );
   }
 }
