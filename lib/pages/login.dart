@@ -11,6 +11,12 @@ import 'dart:async';
 
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDB.conecct();
+  runApp(login());
+}
+
 class login extends StatefulWidget {
   @override
   State<login> createState() => _loginState();

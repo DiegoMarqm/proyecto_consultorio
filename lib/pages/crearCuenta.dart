@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:proyecto_consultorio/db/usuarios.dart';
+import 'package:proyecto_consultorio/pages/login.dart';
 
 class sign extends StatefulWidget{
   @override
@@ -10,6 +12,53 @@ class sign extends StatefulWidget{
 class _signState extends State<sign> {
   bool _ocultarContra = true;
 
+  final _nombreController = TextEditingController();
+  final _telefonoController = TextEditingController();
+  final _contrasenaController = TextEditingController();
+
+  Future<void> _registrarUsuario() async{
+    String nombre = _nombreController.text;
+    String telefono = _telefonoController.text;
+    String contrasena = _contrasenaController.text;
+
+    if(nombre.isEmpty || telefono.isEmpty || contrasena.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Por favor llene todos los campos"),
+        ),
+      );
+      return;
+    }
+
+    Map<String, dynamic> usuario = {
+      "nom_user": nombre,
+      "telefono": telefono,
+      "pass": contrasena,
+    };
+
+    try{
+      await MongoDB.coleccionUsuarios.insertOne(usuario);
+      _nombreController.clear();
+      _telefonoController.clear();
+      _contrasenaController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Usuario Registrado con exito"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      print("Usuario Registrado");
+    } catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Error al registrar el usuario"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      print("Error al registrar el usuario: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     return  Scaffold(
@@ -17,19 +66,19 @@ class _signState extends State<sign> {
       body:  Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 50),
-          Text("Crear cuenta",
+          const SizedBox(height: 50),
+          const Text("Crear cuenta",
             style:TextStyle(
               color: Colors.blue,
               fontSize: 30,
               fontWeight:  FontWeight.bold,
             ),
           ),
-          Icon(Icons.favorite,
+          const Icon(Icons.favorite,
             size: 180,
             color: Colors.blue,
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
@@ -38,16 +87,17 @@ class _signState extends State<sign> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
+              controller: _nombreController,
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Ingrese su nombre",
                 border: OutlineInputBorder(),
               ),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
@@ -56,16 +106,17 @@ class _signState extends State<sign> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
+              controller: _telefonoController,
               keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Ingrese su telefono",
                 border: OutlineInputBorder(),
               ),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
@@ -74,10 +125,11 @@ class _signState extends State<sign> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
+              controller: _contrasenaController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
                   onPressed: (){
@@ -94,14 +146,23 @@ class _signState extends State<sign> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: ElevatedButton(onPressed: () {  },
-              child: Text("Ingresar",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+            child: ElevatedButton(onPressed: () {
+              _registrarUsuario();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => login(),
+                ),
+              );
+
+            },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 minimumSize: Size(200, 50),
+              ),
+              child: const Text("Ingresar",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ),
