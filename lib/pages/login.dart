@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:proyecto_consultorio/pages/crearCuenta.dart';
 import 'package:proyecto_consultorio/db/usuarios.dart';
+import 'package:proyecto_consultorio/pages/home.dart';
+import 'package:proyecto_consultorio/utils/storage.dart';
 
+import 'package:proyecto_consultorio/pages/pruebaD.dart';
 import 'dart:async';
+
 
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
@@ -91,10 +94,10 @@ class _loginState extends State<login> {
                 )),
           ),
            Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
               keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Ingrese su telefono",
                 border: OutlineInputBorder(),
               ),
@@ -146,23 +149,28 @@ class _loginState extends State<login> {
             padding: const EdgeInsets.only(top: 10),
             child: ElevatedButton(
               onPressed: () {
-                _validateCredentials();
+                _validarLogin();
               },
-              child: Text(
-                "Ingresar",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 minimumSize: Size(200, 50),
+              ),
+              child: const Text(
+                "Ingresar",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: InkWell(
-              child: Row(
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => sign()));
+              },
+              splashColor: Colors.transparent,
+              child:  const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -175,11 +183,7 @@ class _loginState extends State<login> {
                   ),
                 ],
               ),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => sign()));
-              },
-              splashColor: Colors.transparent,
+
             ),
           ),
           //],
@@ -189,21 +193,29 @@ class _loginState extends State<login> {
       ),
     );
   }
-  void _validateCredentials() {
+  Future<void> _validarLogin() async{
     for (final usuario in usuarios) {
       if (usuario['telefono'] == _telefonoRe && usuario['pass'] == _contrasenaRe) {
-        // If the credentials are valid, navigate to the desired screen
+
+        await saveSessionData({
+          'nombre': usuario['nom_user'],
+          'telefono': usuario['telefono'],
+          'contra': usuario['pass'],
+        });
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => doctores()),
+          MaterialPageRoute(
+              builder: (context) => Home()),
         );
         return;
       }
     }
-
-    // If the credentials are not valid, show an error message
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Telefono o Contraseña incorrectas')),
+      const SnackBar(
+          content:
+          Text('Telefono o Contraseña incorrectas')
+      ),
     );
   }
 }
