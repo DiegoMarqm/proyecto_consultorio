@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
+import 'package:proyecto_consultorio/pages/crearCuenta.dart';
+import 'package:proyecto_consultorio/pages/cambiarContra.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 import 'package:proyecto_consultorio/pages/citaAgendada.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -51,6 +54,30 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: Text("Ir a Inicia Sesión"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => sign(),
+                  ),
+                );
+              },
+              child: Text("Crear cuenta"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => changePass(),
+                  ),
+                );
+              },
+              child: Text("Cambiar contraseña"),
             ),
             SizedBox(height: 20),
             ElevatedButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:proyecto_consultorio/pages/crearCuenta.dart';
 
 class login extends StatefulWidget{
   @override
@@ -29,6 +30,7 @@ Widget build(BuildContext context){
                     fontWeight:  FontWeight.bold,
                   ),
                 ),
+              //Image.asset('assets/logo.jpg',width:100,),
               Icon(Icons.favorite,
                 size: 180,
                 color: Colors.blue,
@@ -113,10 +115,17 @@ Widget build(BuildContext context){
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: InkWell(
-                  child: Text("Crear cuenta",
-                  style: TextStyle(color: Colors.cyan),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("¿No tienes cuenta? ",
+                      style: TextStyle(color: Colors.black),),
+                      Text("Crear una",
+                        style: TextStyle(color: Colors.cyan),),
+                    ],
+                  ),
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => sign()));
                   },
                 splashColor: Colors.transparent,
               ),
