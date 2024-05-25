@@ -43,7 +43,7 @@ class doctores extends StatelessWidget {
                   DoctorCard(
                     nombre: 'Dr. Foreman',
                     especialidad: 'Neurología',
-                    foto: Image.asset('assets/foreman.jpg'),
+                    foto: Image.asset('assets/Foreman.jpg'),
                   ),
                   DoctorCard(
                     nombre: 'Dr. James Wilson',
