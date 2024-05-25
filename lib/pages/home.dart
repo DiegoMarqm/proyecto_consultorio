@@ -37,7 +37,7 @@ class _homeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Farmacias Similares"),
+        title: Text(_nombreUsuario),
       ),
       body: Center(
         child: Column(
