@@ -5,8 +5,13 @@ import 'package:proyecto_consultorio/pages/cambiarContra.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 import 'package:proyecto_consultorio/pages/citaAgendada.dart';
 
+//imports de la base
+import 'package:proyecto_consultorio/db/usuarios.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDB.conecct();
   runApp(const MyApp());
 }
 
