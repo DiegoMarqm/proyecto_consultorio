@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 
 class changePass extends StatefulWidget{
@@ -14,50 +15,74 @@ class _changePassState extends State<changePass> {
   Widget build(BuildContext context){
     return  Scaffold(
       appBar: AppBar(
-        title: Text("Cambiar contraseña",
-          style:TextStyle(
-            color: Colors.blue,
-            fontSize: 25,
-            fontWeight:  FontWeight.bold,
+        title: Text(
+          "Cambiar contraseña",
+          style: GoogleFonts.openSans(
+            color: const Color(0xFF0B8FAC),
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
       ),
       body:  Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 50,),
-          Align(
+          const SizedBox(height: 30,),
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text("Para garantizar la seguridad de su cuenta, te recomendamos cambiar su contraseña regularmente.",
+                child: Text("Para garantizar la seguridad de tu cuenta, te recomendamos cambiar tu contraseña regularmente.",
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    color: Color(0xFF646464),
+                    fontSize: 18,
                   ),
+                ),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
               padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-              child: Text("Por favor, ingresa una nueva contraseña que deseas utilizar",
+              child: Text("Por favor, ingresa la nueva contraseña que deseas utilizar.",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  color: Color(0xFF646464),
+                  fontSize: 18,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 30,),
-          Align(
+          const SizedBox(height: 30,),
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                 child: Text("Nueva contraseña",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0x40858585)),
+                ),
+                filled: true,
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Ingrese su nueva contraseña",
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
+                  color: const Color(0xFF0B8FAC),
                   onPressed: (){
                     setState((){
                       _ocultarContra = !_ocultarContra;
@@ -70,22 +95,34 @@ class _changePassState extends State<changePass> {
               obscuringCharacter: "*",
             ),
           ),
-          SizedBox(height: 30,),
-          Align(
+          const SizedBox(height: 30),
+          const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text("Verifique la contraseña",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
+                child: Text("Confirmación de contraseña",
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0x40858585)),
+                ),
+                filled: true,
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Confirme la nueva contraseña",
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
+                  color: const Color(0xFF0B8FAC),
                   onPressed: (){
                     setState((){
                       _ocultarContra = !_ocultarContra;
@@ -98,16 +135,25 @@ class _changePassState extends State<changePass> {
               obscuringCharacter: "*",
             ),
           ),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: ElevatedButton(onPressed: () {  },
-              child: Text("Aceptar",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Text(
+                "Aceptar",
+                style: GoogleFonts.openSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                minimumSize: Size(200, 50),
+                backgroundColor: const Color(0xFF0B8FAC),
+                padding:
+                const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),

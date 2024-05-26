@@ -43,28 +43,17 @@ class _citaState extends State<cita> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 25,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Center(
-          child: Text(
-            'Cita',
-            style: GoogleFonts.openSans(
-              fontSize: 27,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0B8FAC),
-            ),
+        title: Text(
+          "Cita",
+          style: GoogleFonts.openSans(
+            color: const Color(0xFF0B8FAC),
+            fontSize: 27,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
