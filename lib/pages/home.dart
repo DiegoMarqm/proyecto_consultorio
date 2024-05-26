@@ -52,9 +52,9 @@ class _homeState extends State<Home> {
                   ),
                 );
               },
-              child: Text("Ir a Inicia Sesión"),
+              child: const Text("Ir a Inicia Sesión"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -66,7 +66,7 @@ class _homeState extends State<Home> {
               },
               child: Text("Crear cuenta"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -76,9 +76,9 @@ class _homeState extends State<Home> {
                   ),
                 );
               },
-              child: Text("Cambiar contraseña"),
+              child: const Text("Cambiar contraseña"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -88,9 +88,9 @@ class _homeState extends State<Home> {
                   ),
                 );
               },
-              child: Text("Doctores"),
+              child: const Text("Doctores"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -100,7 +100,7 @@ class _homeState extends State<Home> {
                   ),
                 );
               },
-              child: Text("Cita Agendada"),
+              child: const Text("Cita Agendada"),
             ),
 
             ElevatedButton(onPressed: () async{
@@ -113,7 +113,7 @@ class _homeState extends State<Home> {
                 ),
               );
             },
-              child: Text('Cerrar Sesión'),
+              child: const Text('Cerrar Sesión'),
             ),
           ],
         ),

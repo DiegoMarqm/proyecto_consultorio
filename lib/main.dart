@@ -46,12 +46,13 @@ Widget _checkAndNavigate(BuildContext context) {
       if (snapshot.hasData) {
         Map<String, dynamic> userData = snapshot.data!;
         if (userData.containsKey('sesionIniciada') && userData['sesionIniciada'] == true) {
-          return Home(); // Navigate to prueba()
+          return Home();
+
         } else {
-          return login(); // Navigate to login()
+          return Home(); // return login()
         }
       } else {
-        return login(); // Default to login() if no data or error
+        return Home(); // Default to login() if no data or error
       }
     },
   );
