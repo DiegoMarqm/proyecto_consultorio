@@ -5,6 +5,7 @@ import 'package:proyecto_consultorio/pages/crearCuenta.dart';
 import 'package:proyecto_consultorio/pages/cambiarContra.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 import 'package:proyecto_consultorio/pages/citaAgendada.dart';
+import 'package:proyecto_consultorio/pages/cita.dart';
 
 
 class Home extends StatefulWidget {
@@ -102,7 +103,19 @@ class _homeState extends State<Home> {
               },
               child: const Text("Cita Agendada"),
             ),
-
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => cita(),
+                  ),
+                );
+              },
+              child: const Text("Cita"),
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(onPressed: () async{
               await deleteSessionData();
               // Navegar de vuelta a la pantalla de inicio de sesión

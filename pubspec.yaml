@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   mongo_dart: ^0.10.2
   flutter_native_splash: ^2.4.0
+  google_fonts: ^4.0.3
+  table_calendar: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -75,6 +77,8 @@ flutter:
     - assets/cuddy.jpeg
     - assets/tod.jpeg
     - assets/logo.jpg
+    - assets/doctor.jpg
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
