@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'package:proyecto_consultorio/db/usuarios.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
@@ -67,23 +68,32 @@ class _signState extends State<sign> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 50),
-          const Text("Crear cuenta",
-            style:TextStyle(
-              color: Colors.blue,
-              fontSize: 30,
-              fontWeight:  FontWeight.bold,
+          const Text("Crea una cuenta",
+            style: TextStyle(
+              fontFamily: 'OpenSans',
+              color: Color(0xFF0B8FAC),
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const Icon(Icons.favorite,
-            size: 180,
-            color: Colors.blue,
+          const SizedBox(height: 30),
+          Image.asset(
+            'assets/sanatec.jpg',
+            width: 130,
           ),
+          const SizedBox(height: 10),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text("Nombre",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
+                child: Text(
+                  "Nombre",
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
             ),
           ),
           Padding(
@@ -92,17 +102,29 @@ class _signState extends State<sign> {
               controller: _nombreController,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
-                labelText: "Ingrese su nombre",
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: Color(0x40B6B5B5)),
+                ),
+                filled: true,
+                fillColor: Color(0x40D9D9D9),
+                hintText: "Ingrese su nombre",
+                hintStyle: TextStyle(color: Colors.grey),
               ),
             ),
           ),
+          const SizedBox(height: 10),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                 child: Text("Teléfono",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
             ),
           ),
           Padding(
@@ -111,17 +133,29 @@ class _signState extends State<sign> {
               controller: _telefonoController,
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
-                labelText: "Ingrese su telefono",
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: Color(0x40B6B5B5)),
+                ),
+                filled: true,
+                fillColor: Color(0x40D9D9D9),
+                hintText: "Ingrese su teléfono",
+                hintStyle: TextStyle(color: Colors.grey),
               ),
             ),
           ),
+          const SizedBox(height: 10),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                 child: Text("Contraseña",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
+                  style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
             ),
           ),
           Padding(
@@ -129,9 +163,15 @@ class _signState extends State<sign> {
             child: TextField(
               controller: _contrasenaController,
               decoration: InputDecoration(
-                border: const OutlineInputBorder(),
+                border: const OutlineInputBorder(borderSide:
+                BorderSide(color: Color(0x40B6B5B5)),),
+                filled: true,
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Ingrese su contraseña",
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
+                  color: const Color(0xFF0B8FAC),
                   onPressed: (){
                     setState((){
                       _ocultarContra = !_ocultarContra;
@@ -144,6 +184,7 @@ class _signState extends State<sign> {
               obscuringCharacter: "*",
             ),
           ),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: ElevatedButton(onPressed: () {
@@ -157,12 +198,19 @@ class _signState extends State<sign> {
 
             },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                minimumSize: Size(200, 50),
+                backgroundColor: const Color(0xFF0B8FAC),
+                padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-              child: const Text("Ingresar",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Text(
+                "Ingresar",
+                style: GoogleFonts.openSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

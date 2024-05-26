@@ -56,9 +56,9 @@ class _loginState extends State<login> {
           const Text(
             "Bienvenidos",
             style: TextStyle(
-              fontFamily: 'OpenSans', // Utilizando la fuente Open Sans
-              color: Color(0xFF0B8FAC), // Cambiar al color hexadecimal deseado
-              fontSize: 30,
+              fontFamily: 'OpenSans',
+              color: Color(0xFF0B8FAC),
+              fontSize: 27,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -66,7 +66,7 @@ class _loginState extends State<login> {
           Image.asset(
             'assets/sanatec.jpg',
             width: 130,
-          ), //no se porque aparece una linea verde abajo xd
+          ), //no se porque aparece una linea verde abajo cuando lo ves en web
           /*const Icon(
             Icons.favorite,
             size: 180,
@@ -78,7 +78,7 @@ class _loginState extends State<login> {
             style: TextStyle(
               fontFamily: 'OpenSans',
               color: Colors.black,
-              fontSize: 30,
+              fontSize: 27,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -118,13 +118,12 @@ class _loginState extends State<login> {
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color(0x40858585)), // Color del borde
+                  borderSide: BorderSide(color: Color(0x40858585)),
                 ),
                 filled: true,
                 fillColor: Color(0x40D9D9D9),
                 hintText: "Ingrese su teléfono", // Placeholder
-                hintStyle: TextStyle(color: Colors.grey), // Color de fondo
+                hintStyle: TextStyle(color: Colors.grey),
               ),
               onChanged: (value) {
                 setState(() {
@@ -153,14 +152,12 @@ class _loginState extends State<login> {
             child: TextField(
               decoration: InputDecoration(
                 border: const OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color(0x40858585)), // Color del borde
+                  borderSide: BorderSide(color: Color(0x40858585)),
                 ),
                 filled: true,
-                fillColor: const Color(0x40D9D9D9), // Color de fondo
-                hintText: "Ingrese su contraseña", // Placeholder
-                hintStyle:
-                    const TextStyle(color: Colors.grey), // Estilo del placeholder
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Ingrese su contraseña",
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: Icon(
                       _ocultarContra ? Icons.visibility_off : Icons.visibility),
@@ -189,8 +186,9 @@ class _loginState extends State<login> {
                   _validarLogin();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0B8FAC), // Color de fondo
-                  padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 15), // Ajusta el espaciado interno
+                  backgroundColor: const Color(0xFF0B8FAC),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -198,7 +196,7 @@ class _loginState extends State<login> {
                 child: Text(
                   "Ingresar",
                   style: GoogleFonts.openSans(
-                    fontSize: 18, // Ajusta el tamaño del texto
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -226,16 +224,15 @@ class _loginState extends State<login> {
                       color: Color(0xFF646464),
                       fontSize: 14,
                     ),
-
                   ),
                   Text(
                     "Crea una",
-                      style: TextStyle(
-                        fontFamily: 'OpenSans',
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF0B8FAC),
-                        fontSize: 14,
-                      ),
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0B8FAC),
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),

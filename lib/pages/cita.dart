@@ -46,7 +46,7 @@ class _citaState extends State<cita> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            size: 25, // Tamaño de la flecha
+            size: 25,
           ),
           onPressed: () {
             Navigator.of(context).pop();

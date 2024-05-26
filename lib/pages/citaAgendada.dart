@@ -185,7 +185,7 @@ class citaAgendada extends StatelessWidget {
                       ),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 15), // Ajustar el padding
+                            horizontal: 100, vertical: 15),
                       ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -194,7 +194,6 @@ class citaAgendada extends StatelessWidget {
                       ),
                     ),
                     child: FittedBox(
-                      // Ajustar el texto automáticamente
                       fit: BoxFit.scaleDown,
                       child: Text(
                         'Cancelar Cita',
