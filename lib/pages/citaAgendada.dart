@@ -1,162 +1,239 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class citaAgendada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Cita Agendada',
-            style: TextStyle(color: Colors.blue),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 25,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Center(
+          child: Text(
+            'Cita agendada',
+            style: GoogleFonts.openSans(
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF0B8FAC),
+            ),
           ),
         ),
-        body: Padding(
+        automaticallyImplyLeading: false,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Alinea a la izquierda
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Doctor Info
+              const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 110,
+                    height: 110,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xFFD2EBE7),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset('assets/house.jpg'),
+                    child: Center(
+                      child: Container(
+                        width: 95,
+                        height: 95,
+                        decoration: BoxDecoration(
+                          color: const Color(0x40D9D9D9),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/house.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Dr. Gregory House',
-                        style: TextStyle(
+                        style: GoogleFonts.openSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Nefrología',
+                        style: GoogleFonts.openSans(
                           fontSize: 18,
+                          color: const Color(0xFF7BC1B7),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Nefrología e infectología',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue,
+                      const SizedBox(height: 10),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Consulta ',
+                          style: GoogleFonts.openSans(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\$1200',
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                color: const Color(0xFF7BC1B7),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Text(
-                            'Consulta ',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(width: 50),
-                          Text(
-                            '\$1200',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.blue, // Mismo color que la especialidad
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 50),
-              // Date Time Info
+              const SizedBox(height: 50),
+              // Contenido adicional
+              Text(
+                'Día',
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 7),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0x80D9D9D9),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  '25 de mayo de 2024',
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Hora',
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 7),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0x80D9D9D9),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  '9:00 AM',
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Estado',
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0x80D9D9D9),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  'Agendada',
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Día',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  ElevatedButton(
+                    onPressed: () {
+                      // Acción para cancelar cita
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xFF7BC1B7).withOpacity(0.75),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: 100, vertical: 15), // Ajustar el padding
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    child: FittedBox(
+                      // Ajustar el texto automáticamente
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'Cancelar Cita',
+                        style: GoogleFonts.openSans(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    '24-mayo-2024',
-                    style: TextStyle(
-                      fontSize: 18,
-
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Acción para aceptar
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xFF0B8FAC),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(horizontal: 123, vertical: 16),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 60), // Más espacio entre los elementos
-                  Text(
-                    'Hora',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    '9:00 am',
-                    style: TextStyle(
-                      fontSize: 18,
-
-                    ),
-                  ),
-                  SizedBox(height: 60), // Más espacio entre los elementos
-                  Text(
-                    'Estado',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Agendada',
-                    style: TextStyle(
-                      fontSize: 18,
-
+                    child: Text(
+                      'Aceptar',
+                      style: GoogleFonts.openSans(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
-              ),
-              Spacer(), // Espacio flexible para empujar los botones hacia abajo
-              // Actions
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Acción para cancelar cita
-                      },
-                      child: Text('Cancelar Cita'),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.red,
-                        minimumSize: Size(200, 50),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Acción para aceptar
-                      },
-                      child: Text('Aceptar'),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue,
-                        minimumSize: Size(200, 50),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),

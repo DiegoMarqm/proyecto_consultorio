@@ -46,7 +46,7 @@ class _citaState extends State<cita> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            size: 30, // Tamaño de la flecha
+            size: 25, // Tamaño de la flecha
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -56,7 +56,7 @@ class _citaState extends State<cita> {
           child: Text(
             'Cita',
             style: GoogleFonts.openSans(
-              fontSize: 30,
+              fontSize: 27,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0B8FAC),
             ),
@@ -223,7 +223,7 @@ class _citaState extends State<cita> {
                     backgroundColor:
                         const Color(0xFF0B8FAC),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 125, vertical: 18),
+                        horizontal: 120, vertical: 16),
                     disabledBackgroundColor:
                         const Color(0xFF0B8FAC),
                     disabledForegroundColor: Colors.white
