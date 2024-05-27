@@ -1,131 +1,276 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/pages/crearCuenta.dart';
+import 'package:proyecto_consultorio/db/usuarios.dart';
+import 'package:proyecto_consultorio/pages/home.dart';
+import 'package:proyecto_consultorio/utils/storage.dart';
 
-class login extends StatefulWidget{
+import 'package:proyecto_consultorio/pages/pruebaD.dart';
+import 'dart:async';
+
+import 'package:proyecto_consultorio/pages/doctores.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDB.conecct();
+  runApp(login());
+}
+
+class login extends StatefulWidget {
   @override
   State<login> createState() => _loginState();
 }
 
 class _loginState extends State<login> {
   bool _ocultarContra = true;
+  String _telefonoRe = "";
+  String _contrasenaRe = "";
+
+  List<Map<String, dynamic>> usuarios = [];
+
+  Future<void> obtenerUsuarios() async {
+    final usuarios = await MongoDB.getUsuarios();
+    setState(() {
+      this.usuarios = usuarios;
+    });
+  }
 
   @override
-Widget build(BuildContext context){
-    return  Scaffold(
+  void initState() {
+    super.initState();
+    obtenerUsuarios();
+  }
 
-      body:  Column(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          //Center(
-          //child: Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
-            //children: [
-              SizedBox(height: 50),
-                Text("Bienvenidos",
-                  style:TextStyle(
-                    color: Colors.blue,
-                    fontSize: 30,
-                    fontWeight:  FontWeight.bold,
+          const SizedBox(height: 50),
+          const Text(
+            "Bienvenidos",
+            style: TextStyle(
+              fontFamily: 'OpenSans',
+              color: Color(0xFF0B8FAC),
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Image.asset(
+            'assets/sanatec.jpg',
+            width: 130,
+          ), //no se porque aparece una linea verde abajo cuando lo ves en web
+          const SizedBox(height: 15),
+          const Text(
+            "Iniciar sesión",
+            style: TextStyle(
+              fontFamily: 'OpenSans',
+              color: Colors.black,
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Center(
+              child: Text(
+                "Inicie sesión para agendar su cita médica",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  color: Color(0xFF646464),
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+              child: Text(
+                "Teléfono",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            child: TextField(
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                filled: true,
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Ingrese su teléfono", // Placeholder
+                hintStyle: const TextStyle(color: Colors.grey),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _telefonoRe = value;
+                });
+              },
+            ),
+          ),
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+              child: Text(
+                "Contraseña",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)), 
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                filled: true,
+                fillColor: const Color(0x40D9D9D9),
+                hintText: "Ingrese su contraseña",
+                hintStyle: const TextStyle(color: Colors.grey),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _ocultarContra ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  color: const Color(0xFF0B8FAC),
+                  onPressed: () {
+                    setState(() {
+                      _ocultarContra = !_ocultarContra;
+                    });
+                  },
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _contrasenaRe = value;
+                });
+              },
+              obscureText: _ocultarContra,
+              obscuringCharacter: "*",
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: SizedBox(
+              child: ElevatedButton(
+                onPressed: () {
+                  _validarLogin();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0B8FAC),
+                  padding: const EdgeInsets.symmetric(horizontal: 127, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              Icon(Icons.favorite,
-                size: 180,
-                color: Colors.blue,
-              ),
-              Text("Iniciar sesión",
-                style:TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight:  FontWeight.bold,
+                child: Text(
+                  "Ingresar",
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              SizedBox(height: 40),
-              Row(
+            ),
+          ),
+          const SizedBox(height: 7),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => sign()),
+                );
+              },
+              splashColor: Colors.transparent,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 10),
-                    child: Text("Inicie sesión para agendar su cita médica",
-                      style: TextStyle(
-                      ),
+                  Text(
+                    "¿No tienes cuenta? ",
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF646464),
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    "Crea una",
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0B8FAC),
+                      fontSize: 14,
                     ),
                   ),
                 ],
               ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-              child: Text("Teléfono",
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: "Ingrese su telefono",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text("Contraseña",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),)
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                    icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
-                    onPressed: (){
-                      setState((){
-                            _ocultarContra = !_ocultarContra;
-                          }
-                      );
-                    },
-              ),
-            ),
-              obscureText: _ocultarContra,
-              obscuringCharacter: "*",
-          ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ElevatedButton(onPressed: () {  },
-              child: Text("Ingresar",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                minimumSize: Size(200, 50),
-              ),
-            ),
-          ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: InkWell(
-                  child: Text("Crear cuenta",
-                  style: TextStyle(color: Colors.cyan),),
-                  onTap: () {
-
-                  },
-                splashColor: Colors.transparent,
-              ),
-            ),
-            //],
-          //),
-          //),
         ],
       ),
+    );
+  }
+
+  Future<void> _validarLogin() async {
+    for (final usuario in usuarios) {
+      if (usuario['telefono'] == _telefonoRe &&
+          usuario['pass'] == _contrasenaRe) {
+        await saveSessionData({
+          'nombre': usuario['nom_user'],
+          'telefono': usuario['telefono'],
+          'contra': usuario['pass'],
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+        return;
+      }
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Telefono o Contraseña incorrectas')),
     );
   }
 }
