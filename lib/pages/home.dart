@@ -69,7 +69,7 @@ class _homeState extends State<Home> {
                   ),
                 );
               },
-              child: Text("Crear cuenta"),
+              child: const Text("Crear cuenta"),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -89,7 +89,7 @@ class _homeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => doctores(),
+                    builder: (context) => DoctoresPage(),
                   ),
                 );
               },
@@ -101,7 +101,7 @@ class _homeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => citaAgendada(),
+                    builder: (context) => CitaAgendada(),
                   ),
                 );
               },

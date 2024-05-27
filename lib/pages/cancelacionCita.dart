@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:proyecto_consultorio/pages/home.dart';
+import 'package:proyecto_consultorio/pages/inicio.dart';
 
 class cancelacionCita extends StatelessWidget {
   @override
@@ -35,9 +35,8 @@ class cancelacionCita extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Texto centrado
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'Tu cita ha sido cancelada con éxito. Lamentamos cualquier inconveniente que esto pueda causar.',
                 style: TextStyle(
@@ -53,12 +52,8 @@ class cancelacionCita extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Home(),
-                    ),
-                  );
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B8FAC),

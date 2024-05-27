@@ -1,49 +1,53 @@
 import 'package:flutter/material.dart';
 
-class doctores extends StatelessWidget {
+import 'cita.dart';
+
+class DoctoresPage extends StatelessWidget {
   final List<Map<String, dynamic>> doctors = [
     {
       'nombre': 'Dr. Gregory House',
       'especialidad': 'Nefrología e infectología',
-      'foto': AssetImage('assets/house.jpg'),
+      'foto': const AssetImage('assets/house.jpg'),
     },
     {
       'nombre': 'Dra. Cameron',
       'especialidad': 'Inmunología',
-      'foto': AssetImage('assets/cameron.jpg'),
+      'foto': const AssetImage('assets/cameron.jpg'),
     },
     {
       'nombre': 'Dr. Chase',
       'especialidad': 'Cardiología y cuidados intensivos',
-      'foto': AssetImage('assets/chasse.jpg'),
+      'foto': const AssetImage('assets/chasse.jpg'),
     },
     {
       'nombre': 'Dr. Foreman',
       'especialidad': 'Neurología',
-      'foto': AssetImage('assets/Foreman.jpg'),
+      'foto': const AssetImage('assets/Foreman.jpg'),
     },
     {
       'nombre': 'Dr. James Wilson',
       'especialidad': 'Oncología',
-      'foto': AssetImage('assets/james.jpeg'),
+      'foto': const AssetImage('assets/james.jpeg'),
     },
     {
       'nombre': 'Dr. Christopher Taub',
       'especialidad': 'Cirujano Plástico y Reconstructivo',
-      'foto': AssetImage('assets/tod.jpeg'),
+      'foto': const AssetImage('assets/tod.jpeg'),
     },
     {
       'nombre': 'Dra. Lisa Cuddy',
       'especialidad': 'Endocrinología',
-      'foto': AssetImage('assets/cuddy.jpeg'),
+      'foto': const AssetImage('assets/cuddy.jpeg'),
     },
   ];
+
+  DoctoresPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Doctores',
           style: TextStyle(color: Colors.blue),
         ),
@@ -52,14 +56,14 @@ class doctores extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: 'Buscar Doctor',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: doctors.length,
@@ -85,7 +89,7 @@ class DoctorCard extends StatelessWidget {
   final String especialidad;
   final ImageProvider<Object> foto;
 
-  DoctorCard({
+  const DoctorCard({super.key,
     required this.nombre,
     required this.especialidad,
     required this.foto,
@@ -94,12 +98,12 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: 80,
               height: 80,
               child: ClipRRect(
@@ -110,22 +114,22 @@ class DoctorCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     nombre,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     especialidad,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -134,13 +138,17 @@ class DoctorCard extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Acción al presionar el botón "Ver"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => cita()),
+                );
               },
-              child: Text('Ver'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.blue,
               ),
+              child: const Text('Ver'),
             ),
           ],
         ),

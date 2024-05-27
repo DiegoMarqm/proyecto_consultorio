@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/citaAgendada.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -66,75 +67,84 @@ class HistoryPage extends StatelessWidget {
               itemCount: citas.length,
               itemBuilder: (context, index) {
                 final cita = citas[index];
-                return Padding(
-                  padding: const EdgeInsets.only(left: 20, bottom: 10, right: 15),
-                  child: Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromRGBO(210, 235, 231, .3),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: const BoxDecoration(),
-                          child: const Icon(
-                            Icons.notifications_none,
-                            size: 35,
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                cita["fecha"]!,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'Hora: ',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(133, 133, 133, 1),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: cita["hora"]!,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(133, 133, 133, 1),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 64,
-                          height: 80,
-                          alignment: Alignment.topLeft,
-                          decoration: const BoxDecoration(),
-                          child: const Padding(
-                            padding: EdgeInsets.only(top: 18.5),
-                            child: Text(
-                              "30 Min",
-                              style: TextStyle(fontSize: 16),
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CitaAgendada()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, bottom: 10, right: 15),
+                    child: Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromRGBO(210, 235, 231, .3),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: const BoxDecoration(),
+                            child: const Icon(
+                              Icons.notifications_none,
+                              size: 35,
                             ),
                           ),
-                        )
-                      ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cita["fecha"]!,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Hora: ',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Color.fromRGBO(133, 133, 133, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: cita["hora"]!,
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Color.fromRGBO(133, 133, 133, 1),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 64,
+                            height: 80,
+                            alignment: Alignment.topLeft,
+                            decoration: const BoxDecoration(),
+                            child: const Padding(
+                              padding: EdgeInsets.only(top: 18.5),
+                              child: Text(
+                                "30 Min",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );

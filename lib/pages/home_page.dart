@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/cita.dart';
+import 'package:proyecto_consultorio/pages/doctores.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -114,12 +116,23 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   )),
             ),
-            const Padding(
-                padding: EdgeInsets.only(top: 40, right: 15, bottom: 5),
-                child: Text(
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DoctoresPage()
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.only(top: 40, right: 15, bottom: 5),
+                child: const Text(
                   "Mas",
                   style: TextStyle(fontSize: 20, color: Colors.grey),
-                )),
+                ),
+              ),
+            ),
           ],
         ),
         Padding(
@@ -127,8 +140,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: doctores.map((doctor) {
               return Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 10),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -181,7 +193,7 @@ class HomePage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
+                                      builder: (context) => cita()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
