@@ -9,7 +9,7 @@ import 'package:proyecto_consultorio/utils/storage.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDB.conecct();
+  await UserDB.conecctUsers();
   runApp(const MyApp());
 }
 
@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       title: 'SanaTec',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
