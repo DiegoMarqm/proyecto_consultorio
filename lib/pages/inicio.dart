@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_consultorio/pages/home_page.dart'; // Importar el archivo home_page.dart
 import 'package:proyecto_consultorio/pages/history_page.dart'; // Importar el archivo access_time_page.dart
-import 'package:proyecto_consultorio/pages/profile_page.dart'; // Importar el archivo profile_page.dart
+import 'package:proyecto_consultorio/pages/perfil.dart'; // Importar el archivo profile_page.dart
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -63,10 +63,10 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                HomePage(),
-                HistoryPage(),
-                ProfilePage(),
+              children: [
+                const HomePage(),
+                const HistoryPage(),
+                perfil(),
               ],
             ),
           ),

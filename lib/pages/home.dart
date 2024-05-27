@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/inicio.dart';
 import 'package:proyecto_consultorio/pages/perfil.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
@@ -10,6 +11,8 @@ import 'package:proyecto_consultorio/pages/cita.dart';
 
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _homeState();
 }
@@ -139,6 +142,17 @@ class _homeState extends State<Home> {
               );
             },
               child: const Text('Perfil'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Inicio(),
+                  ),
+                );
+              },
+              child: const Text("Home"),
             ),
           ],
         ),
