@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/perfil.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
 import 'package:proyecto_consultorio/pages/crearCuenta.dart';
@@ -118,7 +119,6 @@ class _homeState extends State<Home> {
             const SizedBox(height: 20),
             ElevatedButton(onPressed: () async{
               await deleteSessionData();
-              // Navegar de vuelta a la pantalla de inicio de sesión
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -127,6 +127,18 @@ class _homeState extends State<Home> {
               );
             },
               child: const Text('Cerrar Sesión'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: () async{
+              await deleteSessionData();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => perfil(),
+                ),
+              );
+            },
+              child: const Text('Perfil'),
             ),
           ],
         ),

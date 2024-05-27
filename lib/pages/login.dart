@@ -48,10 +48,6 @@ class _loginState extends State<login> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          //Center(
-          //child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          //children: [
           const SizedBox(height: 50),
           const Text(
             "Bienvenidos",
@@ -62,17 +58,12 @@ class _loginState extends State<login> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Image.asset(
             'assets/sanatec.jpg',
             width: 130,
           ), //no se porque aparece una linea verde abajo cuando lo ves en web
-          /*const Icon(
-            Icons.favorite,
-            size: 180,
-            color: Colors.blue,
-          ),*/
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           const Text(
             "Iniciar sesión",
             style: TextStyle(
@@ -100,30 +91,38 @@ class _loginState extends State<login> {
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
-                padding:
-                    EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text(
-                  "Teléfono",
-                  style: TextStyle(
-                    fontFamily: 'OpenSans',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                )),
+              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+              child: Text(
+                "Teléfono",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0x40858585)),
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
                 ),
                 filled: true,
-                fillColor: Color(0x40D9D9D9),
+                fillColor: const Color(0x40D9D9D9),
                 hintText: "Ingrese su teléfono", // Placeholder
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
               ),
               onChanged: (value) {
                 setState(() {
@@ -135,24 +134,32 @@ class _loginState extends State<login> {
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
-                padding:
-                    EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-                child: Text(
-                  "Contraseña",
-                  style: TextStyle(
-                    fontFamily: 'OpenSans',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                )),
+              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+              child: Text(
+                "Contraseña",
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
             child: TextField(
               decoration: InputDecoration(
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0x40858585)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)), 
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Color(0x80858585)),
                 ),
                 filled: true,
                 fillColor: const Color(0x40D9D9D9),
@@ -160,7 +167,8 @@ class _loginState extends State<login> {
                 hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: Icon(
-                      _ocultarContra ? Icons.visibility_off : Icons.visibility),
+                    _ocultarContra ? Icons.visibility_off : Icons.visibility,
+                  ),
                   color: const Color(0xFF0B8FAC),
                   onPressed: () {
                     setState(() {
@@ -187,8 +195,7 @@ class _loginState extends State<login> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B8FAC),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 127, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -204,13 +211,15 @@ class _loginState extends State<login> {
               ),
             ),
           ),
-
+          const SizedBox(height: 7),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: InkWell(
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => sign()));
+                  context,
+                  MaterialPageRoute(builder: (context) => sign()),
+                );
               },
               splashColor: Colors.transparent,
               child: const Row(
@@ -238,9 +247,6 @@ class _loginState extends State<login> {
               ),
             ),
           ),
-          //],
-          //),
-          //),
         ],
       ),
     );

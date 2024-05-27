@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/pages/confirmacionCita.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class cita extends StatefulWidget {
@@ -12,12 +13,19 @@ class _citaState extends State<cita> {
   late DateTime _selectedDay;
   int? _selectedTimeIndex;
 
+  List<Map<String, dynamic>> doctors = [
+    {
+      'name': 'Dr. Daniel',
+      'specialty': 'Pediatría',
+      'consultation_fee': '\$120.00',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
     _focusedDay = DateTime.now();
-    _selectedDay = DateTime.now()
-        .add(const Duration(days: 3));
+    _selectedDay = DateTime.now().add(const Duration(days: 3));
     _selectedTimeIndex = null;
   }
 
@@ -53,7 +61,7 @@ class _citaState extends State<cita> {
         ),
         centerTitle: true,
       ),
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -68,7 +76,7 @@ class _citaState extends State<cita> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dr. Daniel',
+                        doctors[0]['name'],
                         style: GoogleFonts.openSans(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -77,7 +85,7 @@ class _citaState extends State<cita> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Pediatría',
+                        doctors[0]['specialty'],
                         style: GoogleFonts.openSans(
                           fontSize: 18,
                           color: const Color(0xFF7BC1B7),
@@ -85,8 +93,8 @@ class _citaState extends State<cita> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text.rich(
-                        TextSpan(
+                      RichText(
+                        text: TextSpan(
                           text: 'Consulta ',
                           style: GoogleFonts.openSans(
                             fontSize: 18,
@@ -94,10 +102,9 @@ class _citaState extends State<cita> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '\$120.00',
-                              style: GoogleFonts.openSans(
-                                fontSize: 18,
-                                color: const Color(0xFF7BC1B7),
+                              text: '${doctors[0]['consultation_fee']}',
+                              style: const TextStyle(
+                                color: Color(0xFF7BC1B7),
                               ),
                             ),
                           ],
@@ -120,8 +127,7 @@ class _citaState extends State<cita> {
                       .isAfter(DateTime.now().add(const Duration(days: 2)))) {
                     setState(() {
                       _selectedDay = selectedDay;
-                      _focusedDay =
-                          selectedDay;
+                      _focusedDay = selectedDay;
                       _selectedTimeIndex = null;
                     });
                   }
@@ -204,22 +210,22 @@ class _citaState extends State<cita> {
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: _selectedTimeIndex != null
-                      ? () {
-                        }
-                      : null,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => confirmacionCita(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        const Color(0xFF0B8FAC),
+                    backgroundColor: const Color(0xFF0B8FAC),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 120, vertical: 16),
-                    disabledBackgroundColor:
-                        const Color(0xFF0B8FAC),
-                    disabledForegroundColor: Colors.white
-                        .withOpacity(0.5),
+                    disabledBackgroundColor: const Color(0xFF0B8FAC),
+                    disabledForegroundColor: Colors.white.withOpacity(0.5),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Text(
@@ -227,8 +233,7 @@ class _citaState extends State<cita> {
                     style: GoogleFonts.openSans(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors
-                          .white,
+                      color: Colors.white,
                     ),
                   ),
                 ),

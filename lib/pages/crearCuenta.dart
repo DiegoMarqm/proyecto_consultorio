@@ -96,24 +96,32 @@ class _signState extends State<sign> {
                 )
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              controller: _nombreController,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide:
-                  BorderSide(color: Color(0x40B6B5B5)),
-                ),
-                filled: true,
-                fillColor: Color(0x40D9D9D9),
-                hintText: "Ingrese su nombre",
-                hintStyle: TextStyle(color: Colors.grey),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+          child: TextField(
+            controller: _nombreController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              filled: true,
+              fillColor: const Color(0x40D9D9D9),
+              hintText: "Ingrese su nombre",
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
           ),
-          const SizedBox(height: 10),
+        ),
+        const SizedBox(height: 10),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -127,24 +135,32 @@ class _signState extends State<sign> {
                 )
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              controller: _telefonoController,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide:
-                  BorderSide(color: Color(0x40B6B5B5)),
-                ),
-                filled: true,
-                fillColor: Color(0x40D9D9D9),
-                hintText: "Ingrese su teléfono",
-                hintStyle: TextStyle(color: Colors.grey),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+          child: TextField(
+            controller: _telefonoController,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              filled: true,
+              fillColor: const Color(0x40D9D9D9),
+              hintText: "Ingrese su teléfono",
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
           ),
-          const SizedBox(height: 10),
+        ),
+        const SizedBox(height: 10),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -158,33 +174,42 @@ class _signState extends State<sign> {
                 )
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              controller: _contrasenaController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(borderSide:
-                BorderSide(color: Color(0x40B6B5B5)),),
-                filled: true,
-                fillColor: const Color(0x40D9D9D9),
-                hintText: "Ingrese su contraseña",
-                hintStyle: const TextStyle(color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
-                  color: const Color(0xFF0B8FAC),
-                  onPressed: (){
-                    setState((){
-                      _ocultarContra = !_ocultarContra;
-                    }
-                    );
-                  },
-                ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+          child: TextField(
+            controller: _contrasenaController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
               ),
-              obscureText: _ocultarContra,
-              obscuringCharacter: "*",
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Color(0x80858585)),
+              ),
+              filled: true,
+              fillColor: const Color(0x40D9D9D9),
+              hintText: "Ingrese su contraseña",
+              hintStyle: const TextStyle(color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: Icon(_ocultarContra ? Icons.visibility_off : Icons.visibility),
+                color: const Color(0xFF0B8FAC),
+                onPressed: () {
+                  setState(() {
+                    _ocultarContra = !_ocultarContra;
+                  });
+                },
+              ),
             ),
+            obscureText: _ocultarContra,
+            obscuringCharacter: "*",
           ),
-          const SizedBox(height: 10),
+        ),
+        const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: ElevatedButton(onPressed: () {

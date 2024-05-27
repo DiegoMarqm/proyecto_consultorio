@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/pages/cancelacionCita.dart';
 
 class citaAgendada extends StatelessWidget {
   @override
@@ -166,7 +167,12 @@ class citaAgendada extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Acción para cancelar cita
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => cancelacionCita(),
+                        ),
+                      );
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
