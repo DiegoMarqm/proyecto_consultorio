@@ -13,7 +13,7 @@ import 'package:proyecto_consultorio/pages/doctores.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDB.conecct();
+  await UserDB.conecctUsers();
   runApp(login());
 }
 
@@ -30,7 +30,7 @@ class _loginState extends State<login> {
   List<Map<String, dynamic>> usuarios = [];
 
   Future<void> obtenerUsuarios() async {
-    final usuarios = await MongoDB.getUsuarios();
+    final usuarios = await UserDB.getUsuarios();
     setState(() {
       this.usuarios = usuarios;
     });
