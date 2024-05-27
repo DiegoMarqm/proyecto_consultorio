@@ -259,8 +259,7 @@ class _loginState extends State<login> {
           'telefono': usuario['telefono'],
           'contra': usuario['pass'],
         });
-
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Inicio()),
         );

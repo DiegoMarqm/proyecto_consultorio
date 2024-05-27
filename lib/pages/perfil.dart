@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/cambiarContra.dart';
+import 'package:proyecto_consultorio/pages/login.dart';
 
 import '../utils/storage.dart';
 
@@ -144,7 +145,10 @@ class _perfilState extends State<perfil> {
                 child: ElevatedButton(
                   onPressed: () {
                     deleteSessionData();
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => login()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B8FAC),
