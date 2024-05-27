@@ -26,181 +26,188 @@ class _changePassState extends State<changePass> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-              child: Text(
-                "Para garantizar la seguridad de tu cuenta, te recomendamos cambiar tu contraseña regularmente.",
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  color: Color(0xFF646464),
-                  fontSize: 18,
-                ),
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 30,
             ),
-          ),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
-              child: Text(
-                "Por favor, ingresa la nueva contraseña que deseas utilizar.",
-                style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  color: Color(0xFF646464),
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
+            const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
                 padding:
                     EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                 child: Text(
-                  "Nueva contraseña",
+                  "Para garantizar la seguridad de tu cuenta, te recomendamos cambiar tu contraseña regularmente.",
                   style: TextStyle(
                     fontFamily: 'OpenSans',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    color: Color(0xFF646464),
+                    fontSize: 18,
                   ),
-                )),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                  borderSide: const BorderSide(color: Color(0x80858585)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color(0x80858585)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color(0x80858585)),
-                ),
-                filled: true,
-                fillColor: const Color(0x40D9D9D9),
-                hintText: "Ingrese su nueva contraseña",
-                hintStyle: const TextStyle(color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                      _ocultarContra ? Icons.visibility_off : Icons.visibility),
-                  color: const Color(0xFF0B8FAC),
-                  onPressed: () {
-                    setState(() {
-                      _ocultarContra = !_ocultarContra;
-                    });
-                  },
                 ),
               ),
-              obscureText: _ocultarContra,
-              obscuringCharacter: "*",
             ),
-          ),
-          const SizedBox(height: 30),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
+            const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
                 padding:
                     EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                 child: Text(
-                  "Confirmación de contraseña",
+                  "Por favor, ingresa la nueva contraseña que deseas utilizar.",
                   style: TextStyle(
                     fontFamily: 'OpenSans',
+                    color: Color(0xFF646464),
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+                  child: Text(
+                    "Nueva contraseña",
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  )),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(10.0), // Rounded corners
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0x40D9D9D9),
+                  hintText: "Ingrese su nueva contraseña",
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  suffixIcon: IconButton(
+                    icon: Icon(_ocultarContra
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    color: const Color(0xFF0B8FAC),
+                    onPressed: () {
+                      setState(() {
+                        _ocultarContra = !_ocultarContra;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: _ocultarContra,
+                obscuringCharacter: "*",
+              ),
+            ),
+            const SizedBox(height: 30),
+            const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
+                  child: Text(
+                    "Confirmación de contraseña",
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  )),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Color(0x80858585)),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0x40D9D9D9),
+                  hintText: "Confirme la nueva contraseña",
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  suffixIcon: IconButton(
+                    icon: Icon(_ocultarContra
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    color: const Color(0xFF0B8FAC),
+                    onPressed: () {
+                      setState(() {
+                        _ocultarContra = !_ocultarContra;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: _ocultarContra,
+                obscuringCharacter: "*",
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => exitoContra(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Aceptar",
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    color: Colors.white,
                   ),
-                )),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 15, top: 5, right: 10, bottom: 5),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color(0x80858585)),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color(0x80858585)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color(0x80858585)),
-                ),
-                filled: true,
-                fillColor: const Color(0x40D9D9D9),
-                hintText: "Confirme la nueva contraseña",
-                hintStyle: const TextStyle(color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                      _ocultarContra ? Icons.visibility_off : Icons.visibility),
-                  color: const Color(0xFF0B8FAC),
-                  onPressed: () {
-                    setState(() {
-                      _ocultarContra = !_ocultarContra;
-                    });
-                  },
-                ),
-              ),
-              obscureText: _ocultarContra,
-              obscuringCharacter: "*",
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => exitoContra(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0B8FAC),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                );
-              },
-              child: Text(
-                "Aceptar",
-                style: GoogleFonts.openSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0B8FAC),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

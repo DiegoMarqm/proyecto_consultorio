@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/cita.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
@@ -8,19 +9,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> data = [
-      {"text": "Pediatra"},
-      {"text": "Traumatologia"},
-      {"text": "Flutter"},
+      {"text": "Pediatría"},
+      {"text": "Traumatología"},
+      {"text": "Ginecología"},
     ];
     List<Map<String, dynamic>> doctores = [
       {
-        'name': 'Dr. Alejandro Galvan',
+        'name': 'Dr. Alejandro',
         'specialty': 'Pediatria',
         'image':
             'https://th.bing.com/th/id/OIP.IVwf85npYYUcwRp4EIhqDgAAAA?w=137&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
       },
       {
-        'name': 'Dra. María López',
+        'name': 'Dra. María',
         'specialty': 'Cardiología',
         'image':
             'https://th.bing.com/th/id/OIP.JODdTKvCi-ivu28zDmQk8gHaEj?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
@@ -43,21 +44,27 @@ class HomePage extends StatelessWidget {
               prefixIcon: Icon(Icons.search),
               labelText: "Buscar",
               filled: true,
-              fillColor: Color.fromRGBO(133, 133, 133, 0.3),
+              fillColor: Color(0x40D9D9D9),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide.none,
               ),
+              floatingLabelBehavior: FloatingLabelBehavior.never, // Evita que el texto de la etiqueta aparezca cuando se enfoca el TextField
             ),
           ),
+
         ),
         Container(
           alignment: Alignment.centerLeft,
-          child: const Padding(
-              padding: EdgeInsets.only(left: 15, top: 40, right: 10, bottom: 5),
+          child: Padding(
+              padding: EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
               child: Text(
                 "Especialidades",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: GoogleFonts.openSans(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               )),
         ),
         Padding(
@@ -87,10 +94,10 @@ class HomePage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               item["text"]!,
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -108,12 +115,16 @@ class HomePage extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: const Padding(
+              child: Padding(
                   padding:
-                      EdgeInsets.only(left: 15, top: 35, right: 10, bottom: 5),
+                      EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
                   child: Text(
                     "Doctores",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.openSans(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   )),
             ),
             GestureDetector(
@@ -126,10 +137,13 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.only(top: 40, right: 15, bottom: 5),
-                child: const Text(
-                  "Mas",
-                  style: TextStyle(fontSize: 20, color: Colors.grey),
+                padding: const EdgeInsets.only(top: 35, right: 15, bottom: 5),
+                child: Text(
+                  "Más",
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),
@@ -172,21 +186,26 @@ class HomePage extends StatelessWidget {
                             const SizedBox(height: 30),
                             Text(
                               doctor['name'] ?? '',
-                              style: const TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                              style: GoogleFonts.openSans(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                             const SizedBox(height: 15),
-                            const Text(
+                            Text(
                               "Especialidad:",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(133, 133, 133, 1),
-                                  fontSize: 17),
+                              style: GoogleFonts.openSans(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(133, 133, 133, 1),
+                              ),
                             ),
                             Text("${doctor['specialty']}",
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(133, 133, 133, 1),
-                                    fontSize: 17)),
+                              style: GoogleFonts.openSans(
+                                fontSize: 17,
+                                color: Color.fromRGBO(133, 133, 133, 1),
+                              ),),
                             const SizedBox(height: 15),
                             ElevatedButton(
                               onPressed: () {

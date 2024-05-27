@@ -7,6 +7,7 @@ class perfil extends StatelessWidget {
   final List<Map<String, dynamic>> userData = [
     {'value': 'Luis Gomez Perez', 'icon': Icons.person},
     {'value': '4812635968', 'icon': Icons.phone},
+    {'value': 'Contraseña', 'icon': Icons.remove_red_eye},
   ];
 
   @override
