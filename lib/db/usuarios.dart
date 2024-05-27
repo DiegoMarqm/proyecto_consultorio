@@ -1,17 +1,17 @@
 import 'dart:developer';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:proyecto_consultorio/utils/constantes.dart';
 
-const mongoConecctionURL = "mongodb+srv://Diego:consultoriopassword@cluster0.hed601j.mongodb.net/consultorio?retryWrites=true&w=majority&appName=Cluster0";
-const coleccion = "usuarios";
+const usersCole = "usuarios";
 
-class MongoDB{
+class UserDB{
   static var db, coleccionUsuarios;
-  static conecct() async{
+  static conecctUsers() async{
     try {
       db = await Db.create(mongoConecctionURL);
       await db.open();
       inspect(db);
-      coleccionUsuarios = db.collection(coleccion);
+      coleccionUsuarios = db.collection(usersCole);
       print("Conexion exitosa");
     } catch (e) {
       print('Error al conectar a la base de datos: $e');

@@ -3,17 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/crearCuenta.dart';
 import 'package:proyecto_consultorio/db/usuarios.dart';
-import 'package:proyecto_consultorio/pages/home.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
-
-import 'package:proyecto_consultorio/pages/pruebaD.dart';
 import 'dart:async';
-
-import 'package:proyecto_consultorio/pages/doctores.dart';
+import 'package:proyecto_consultorio/pages/inicio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDB.conecct();
+  await UserDB.conecctUsers();
   runApp(login());
 }
 
@@ -30,7 +26,7 @@ class _loginState extends State<login> {
   List<Map<String, dynamic>> usuarios = [];
 
   Future<void> obtenerUsuarios() async {
-    final usuarios = await MongoDB.getUsuarios();
+    final usuarios = await UserDB.getUsuarios();
     setState(() {
       this.usuarios = usuarios;
     });
@@ -184,7 +180,8 @@ class _loginState extends State<login> {
                   });
                 },
                 obscureText: _ocultarContra,
-                obscuringCharacter: "*",
+                obscuringCharacter: "•",
+
               ),
             ),
             Padding(
@@ -263,10 +260,9 @@ class _loginState extends State<login> {
           'telefono': usuario['telefono'],
           'contra': usuario['pass'],
         });
-
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => const Inicio()),
         );
         return;
       }

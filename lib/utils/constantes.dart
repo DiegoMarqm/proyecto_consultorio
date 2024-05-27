@@ -1,0 +1,1 @@
+const mongoConecctionURL = "mongodb+srv://Diego:consultoriopassword@cluster0.hed601j.mongodb.net/consultorio?retryWrites=true&w=majority&appName=Cluster0";

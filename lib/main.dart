@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/pages/inicio.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
-import 'package:proyecto_consultorio/pages/home.dart';
-import 'package:proyecto_consultorio/pages/crearCuenta.dart';
-import 'package:proyecto_consultorio/pages/cambiarContra.dart';
-import 'package:proyecto_consultorio/pages/doctores.dart';
-import 'package:proyecto_consultorio/pages/citaAgendada.dart';
-
 //importar de la base
 import 'package:proyecto_consultorio/db/usuarios.dart';
-import 'package:proyecto_consultorio/pages/pruebaD.dart';
-
 //LocalStorage
 import 'package:proyecto_consultorio/utils/storage.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDB.conecct();
+  await UserDB.conecctUsers();
   runApp(const MyApp());
 }
 
@@ -30,7 +23,6 @@ class MyApp extends StatelessWidget {
       title: 'SanaTec',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
@@ -46,13 +38,12 @@ Widget _checkAndNavigate(BuildContext context) {
       if (snapshot.hasData) {
         Map<String, dynamic> userData = snapshot.data!;
         if (userData.containsKey('sesionIniciada') && userData['sesionIniciada'] == true) {
-          return Home();
-
+          return const Inicio();
         } else {
-          return Home(); // return login()
+          return login(); // return login()
         }
       } else {
-        return Home(); // Default to login() if no data or error
+        return login(); // Default to login() if no data or error
       }
     },
   );
