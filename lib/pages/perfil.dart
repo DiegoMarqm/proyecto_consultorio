@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/cambiarContra.dart';
-import 'package:proyecto_consultorio/pages/login.dart';
 
-class perfil extends StatelessWidget {
-  final List<Map<String, dynamic>> userData = [
+import '../utils/storage.dart';
+
+class perfil extends StatefulWidget {
+  @override
+  State<perfil> createState() => _perfilState();
+}
+
+class _perfilState extends State<perfil> {
+  List<Map<String, dynamic>> userData = [
     {'value': 'Luis Gomez Perez', 'icon': Icons.person},
     {'value': '4812635968', 'icon': Icons.phone},
   ];
-
   @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+  Future<void> _loadData() async {
+    // Recuperar datos de usuario del almacenamiento
+    Map<String, dynamic> datosusuario = await getSessionData();
+    if (datosusuario.isNotEmpty) {
+      setState(() {
+        userData[0]['value'] = datosusuario['nombre'];
+        userData[1]['value'] = datosusuario['telefono'];
+      });
+    }
+    print(userData);
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -123,11 +143,8 @@ class perfil extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => login()),
-                    );
+                    deleteSessionData();
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B8FAC),
