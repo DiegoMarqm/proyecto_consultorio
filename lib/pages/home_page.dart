@@ -20,16 +20,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> medicos = [];
   List<Map<String, dynamic>> medicosAle = [];
+  final TextEditingController busquedaController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _loadMedicos();
+    busquedaController.addListener(_loadMedicos);
   }
 
   _loadMedicos() async {
     medicos = await MedicosDB.getMedicos();
     medicosAle = await MedicosDB.getMedicosAleatorios();
-    print(medicosAle);
+
+    String busquedaText = busquedaController.text;
+
+    if(busquedaText.isNotEmpty) {
+      medicos = medicos.where((doctor) {
+        String nombreDoctor = doctor['nom_doctor'].toLowerCase();
+        String especialidadDoctor = doctor['especialidad'].toLowerCase();
+        return nombreDoctor.contains(busquedaText.toLowerCase()) || especialidadDoctor.contains(busquedaText.toLowerCase());
+      }).toList();
+    }else{
+      medicos = medicosAle;
+    }
+    //print(medicosAle);
     setState(() {});
   }
 
@@ -43,11 +58,12 @@ class _HomePageState extends State<HomePage> {
 
     return ListView(
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 5),
+         Padding(
+          padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 5),
           child: TextField(
+            controller: busquedaController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               labelText: "Buscar",
               filled: true,
@@ -158,7 +174,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
           child: Column(
-            children: medicosAle.map((doc) {
+            children: medicos.map((doc) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
