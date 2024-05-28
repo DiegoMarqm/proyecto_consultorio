@@ -19,9 +19,9 @@ class CitasDB {
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getCitas(String fecha) async {
+  static Future<List<Map<String, dynamic>>> getCitas() async {
     try {
-      final citas = await coleccionCitas.find({'fecha': fecha}).toList();
+      final citas = await coleccionCitas.find().toList();
       print("Citas obtenidas con exito");
       return citas;
     } catch (e) {
@@ -51,6 +51,14 @@ class CitasDB {
     } catch (e) {
       print('Error al obtener las citas: $e');
       return false;
+  static Future<List<Map<String, dynamic>>> getCitasUsuario(String nombre) async {
+    try {
+      final citas = await coleccionCitas.find({'nom_user':nombre}).toList();
+      print("Citas obtenidas con exito");
+      return citas;
+    } catch (e) {
+      print('Error al obtener las citas: $e');
+      return [];
     }
   }
 }
