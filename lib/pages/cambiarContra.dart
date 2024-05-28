@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
+import 'package:proyecto_consultorio/db/usuarios.dart';
 import 'package:proyecto_consultorio/pages/exitoContra.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 class changePass extends StatefulWidget {
   @override
@@ -16,7 +18,9 @@ class _changePassState extends State<changePass> {
 
   final _contra1 = TextEditingController();
   final _contra2 = TextEditingController();
+
   String _contra = '';
+  String _usuario = '';
 
   Future<void> _checarContra() async {
     String contra1 = _contra1.text;
@@ -42,6 +46,7 @@ class _changePassState extends State<changePass> {
     if (userContra.isNotEmpty){
       setState(() {
         _contra = userContra['contra'];
+        _usuario = userContra['nombre'];
       });
     }
 
@@ -281,6 +286,15 @@ class _changePassState extends State<changePass> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Contraseñas no coinciden")));
                     } else {
+
+                      Future<void> _updateContra() async{
+                        await UserDB.coleccionUsuarios.update(
+                          mongo.where.eq('nom_user', _usuario),
+                          mongo.modify.set('pass', contra1)
+                        );
+                        _contraActual();
+                      }
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
