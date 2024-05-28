@@ -17,35 +17,42 @@ class cita extends StatefulWidget {
 class _citaState extends State<cita> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
+  bool citaRegistrada = false;
   List<String> timeSlots = [];
   int? _selectedTimeIndex;
   @override
   void initState() {
     super.initState();
     _focusedDay = DateTime.now();
-    _selectedDay =
-        DateTime.now()
-            .add(const Duration(days: 3));
+    _selectedDay = DateTime.now().add(const Duration(days: 3));
     _selectedTimeIndex = null;
     _setConection();
   }
 
   Future<void> _getCitas(String fecha) async {
+    Map<String, dynamic> datosusuario = await getSessionData();
+    String nombrePac = datosusuario['nombre'];
     String nombreDoc = widget.doctors[0]['name'];
-    final citas = await CitasDB.getCitasFecha(fecha,nombreDoc);
-
-    if (citas.isNotEmpty) {
-      setState(() {
-        timeSlots.clear();
-        List<String> horas =
-            citas.map((cita) => cita['hr_cita'] as String).toList();
-        _generateVariableTimeSlots(horas);
-      });
-    } else {
-      setState(() {
-        timeSlots.clear();
-        _generateTimeSlots();
-      });
+    bool citaExistente = await CitasDB.getCitasDocUser(nombreDoc, nombrePac);
+    print(citaExistente);
+    setState(() {
+      citaRegistrada = citaExistente;
+    });
+    if (!citaRegistrada) {
+      final citas = await CitasDB.getCitasFecha(fecha, nombreDoc);
+      if (citas.isNotEmpty) {
+        setState(() {
+          timeSlots.clear();
+          List<String> horas =
+              citas.map((cita) => cita['hr_cita'] as String).toList();
+          _generateVariableTimeSlots(horas);
+        });
+      } else {
+        setState(() {
+          timeSlots.clear();
+          _generateTimeSlots();
+        });
+      }
     }
   }
 
@@ -135,29 +142,30 @@ class _citaState extends State<cita> {
               const SizedBox(height: 20),
               Row(
                 children: [
-                Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFD2EBE7),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Container(
-                    width: 95,
-                    height: 95,
+                  Container(
+                    width: 110,
+                    height: 110,
                     decoration: BoxDecoration(
+                      color: const Color(0xFFD2EBE7),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(widget.doctors[0]["foto"],
-                        fit: BoxFit.cover,
+                    child: Center(
+                      child: Container(
+                        width: 95,
+                        height: 95,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            widget.doctors[0]["foto"],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
                   const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +197,8 @@ class _citaState extends State<cita> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '${widget.doctors[0]['consultation_fee']}.00',
+                              text:
+                                  '${widget.doctors[0]['consultation_fee']}.00',
                               style: const TextStyle(
                                 color: Color(0xFF7BC1B7),
                               ),
@@ -216,7 +225,10 @@ class _citaState extends State<cita> {
                       _selectedDay = selectedDay;
                       _focusedDay = selectedDay;
                       _selectedTimeIndex = null;
-                      _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
+                      if (!citaRegistrada) {
+                        _getCitas(
+                            DateFormat('dd-MM-yyyy').format(_selectedDay));
+                      }
                     });
                   }
                 },
@@ -259,42 +271,52 @@ class _citaState extends State<cita> {
                 ),
               ),
               const SizedBox(height: 20),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  timeSlots.length,
+              if (citaRegistrada)
+                Text(
+                  'Ya tienes una cita registrada con este doctor.',
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                )
+              else
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                      timeSlots.length,
                       (index) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedTimeIndex = index;
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: _selectedTimeIndex == index
-                            ? const Color(0xFF0B8FAC)
-                            : const Color(0x40D9D9D9),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          timeSlots[index],
-                          style: GoogleFonts.openSans(
-                            fontSize: 18,
+                        onTap: () {
+                          setState(() {
+                            _selectedTimeIndex = index;
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
                             color: _selectedTimeIndex == index
-                                ? Colors.white
-                                : Colors.black,
+                                ? const Color(0xFF0B8FAC)
+                                : const Color(0x40D9D9D9),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              timeSlots[index],
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                color: _selectedTimeIndex == index
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
@@ -325,8 +347,34 @@ class _citaState extends State<cita> {
           ),
         ),
       ),
+      const SizedBox(height: 30),
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            _registrarCita();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF0B8FAC),
+            padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
+            disabledBackgroundColor: const Color(0xFF0B8FAC),
+            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Text(
+            'Aceptar',
+            style: GoogleFonts.openSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
     );
   }
+
   Future<void> _setConection() async {
     await CitasDB.conecctCitas();
     _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
