@@ -28,9 +28,9 @@ class CitasDB {
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getCitasFecha(String fecha) async {
+  static Future<List<Map<String, dynamic>>> getCitasFecha(String fecha, nombre) async {
     try {
-      final citas = await coleccionCitas.find({'fecha': fecha}).toList();
+      final citas = await coleccionCitas.find({'fecha': fecha,'nom_doctor':nombre}).toList();
       print("Citas obtenidas con exito");
       return citas;
     } catch (e) {

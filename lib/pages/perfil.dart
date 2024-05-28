@@ -140,7 +140,7 @@ class _perfilState extends State<perfil> {
                   ],
                 ),
               ),
-              const SizedBox(height: 190),
+              const SizedBox(height: 90),
               Center(
                 child: ElevatedButton(
                   onPressed: () {

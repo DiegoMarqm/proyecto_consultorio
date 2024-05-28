@@ -4,7 +4,7 @@ import 'package:proyecto_consultorio/db/medicos.dart';
 import 'package:proyecto_consultorio/pages/cita.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MedicosDB.conecctMedicos();
   runApp(const HomePage());
@@ -29,12 +29,17 @@ class _HomePageState extends State<HomePage> {
   _loadMedicos() async {
     medicos = await MedicosDB.getMedicos();
     medicosAle = await MedicosDB.getMedicosAleatorios();
+    print(medicosAle);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> especialidades = medicos.map((doctor) => doctor['especialidad'] as String).toSet().toList()..sort((a, b) => a.compareTo(b));
+    List<String> especialidades = medicos
+        .map((doctor) => doctor['especialidad'] as String)
+        .toSet()
+        .toList()
+      ..sort((a, b) => a.compareTo(b));
 
     return ListView(
       children: [
@@ -51,14 +56,16 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide.none,
               ),
-              floatingLabelBehavior: FloatingLabelBehavior.never, // Evita que el texto de la etiqueta aparezca cuando se enfoca el TextField
+              floatingLabelBehavior: FloatingLabelBehavior
+                  .never, // Evita que el texto de la etiqueta aparezca cuando se enfoca el TextField
             ),
           ),
         ),
         Container(
           alignment: Alignment.centerLeft,
           child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
+              padding: const EdgeInsets.only(
+                  left: 15, top: 30, right: 10, bottom: 5),
               child: Text(
                 "Especialidades",
                 style: GoogleFonts.openSans(
@@ -117,8 +124,8 @@ class _HomePageState extends State<HomePage> {
             Container(
               alignment: Alignment.centerLeft,
               child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
+                  padding: const EdgeInsets.only(
+                      left: 15, top: 30, right: 10, bottom: 5),
                   child: Text(
                     "Doctores",
                     style: GoogleFonts.openSans(
@@ -132,9 +139,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => DoctoresPage()
-                  ),
+                  MaterialPageRoute(builder: (context) => DoctoresPage()),
                 );
               },
               child: Container(
@@ -202,18 +207,28 @@ class _HomePageState extends State<HomePage> {
                                 color: const Color.fromRGBO(133, 133, 133, 1),
                               ),
                             ),
-                            Text("${doc['especialidad']}",
+                            Text(
+                              "${doc['especialidad']}",
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 color: const Color.fromRGBO(133, 133, 133, 1),
-                              ),),
+                              ),
+                            ),
                             const SizedBox(height: 15),
                             ElevatedButton(
                               onPressed: () {
+                                print(doc);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => cita()),
+                                      builder: (context) => cita(doctors:
+                                            [{
+                                              'name': doc['nom_doctor'],
+                                              'specialty': doc['especialidad'],
+                                              'consultation_fee': doc['costo'],
+                                              'foto': doc['foto'],
+                                            }]
+                                          )),
                                 );
                               },
                               style: ElevatedButton.styleFrom(

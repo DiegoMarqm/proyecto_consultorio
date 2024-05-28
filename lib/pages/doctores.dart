@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'cita.dart';
 
-class DoctoresPage extends StatelessWidget {
+class DoctoresPage extends StatefulWidget {
+
+  DoctoresPage({super.key});
+
+  @override
+  State<DoctoresPage> createState() => _DoctoresPageState();
+}
+
+class _DoctoresPageState extends State<DoctoresPage> {
   final List<Map<String, dynamic>> doctors = [
     {
       'name': 'Dr. Alejandro',
@@ -41,8 +49,6 @@ class DoctoresPage extends StatelessWidget {
       'https://www.crhoy.com/wp-content/uploads/2019/01/Captura-de-pantalla-2019-01-03-a-las-10.48.27.png',
     },
   ];
-
-  DoctoresPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -139,10 +145,17 @@ class DoctoresPage extends StatelessWidget {
                                 const SizedBox(height: 15),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => cita()),
+                                          builder: (context) => cita(doctors: [
+                                            {
+                                              'name': doctor['nom_doctor'],
+                                              'specialty': doctor['especialidad'],
+                                              'consultation_fee': doctor['costo'],
+                                              'foto': doctor['foto'],
+                                            }
+                                          ])),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

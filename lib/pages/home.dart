@@ -110,12 +110,12 @@ class _homeState extends State<Home> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => cita(),
                   ),
-                );
+                );*/
               },
               child: const Text("Cita"),
             ),

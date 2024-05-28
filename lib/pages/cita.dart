@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import '../utils/storage.dart';
 
 class cita extends StatefulWidget {
+  List<Map<String, dynamic>> doctors = [];
+  cita({required this.doctors});
   @override
   _citaState createState() => _citaState();
 }
@@ -17,29 +19,20 @@ class _citaState extends State<cita> {
   late DateTime _selectedDay;
   List<String> timeSlots = [];
   int? _selectedTimeIndex;
-
-  List<Map<String, dynamic>> doctors = [
-    {
-      'name': 'Dr. Daniel',
-      'specialty': 'Pediatría',
-      'consultation_fee': '\$120.00',
-    },
-  ];
-  List<Map<String, dynamic>> citas = [];
-
   @override
   void initState() {
     super.initState();
     _focusedDay = DateTime.now();
     _selectedDay =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        DateTime.now()
             .add(const Duration(days: 3));
     _selectedTimeIndex = null;
     _setConection();
   }
 
   Future<void> _getCitas(String fecha) async {
-    final citas = await CitasDB.getCitasFecha(fecha);
+    String nombreDoc = widget.doctors[0]['name'];
+    final citas = await CitasDB.getCitasFecha(fecha,nombreDoc);
 
     if (citas.isNotEmpty) {
       setState(() {
@@ -81,12 +74,11 @@ class _citaState extends State<cita> {
     Map<String, dynamic> datosusuario = await getSessionData();
     Map<String, dynamic> infoCita = {
       'nom_user': datosusuario['nombre'],
-      'nom_doctor': 'juanito perez',
+      'nom_doctor': widget.doctors[0]['name'],
       'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
       'hr_cita': timeSlots[_selectedTimeIndex as int],
       'estado': 'Pendiente'
     };
-    print(infoCita);
     try {
       await CitasDB.coleccionCitas.insertOne(infoCita);
       Navigator.push(
@@ -98,11 +90,11 @@ class _citaState extends State<cita> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Error al registrar el usuario"),
+          content: Text("Error al registrar la cita"),
           backgroundColor: Colors.red,
         ),
       );
-      print("Error al registrar el usuario: $e");
+      print("Error al registrar la cita: $e");
     }
   }
 
@@ -143,13 +135,35 @@ class _citaState extends State<cita> {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  const ColoredContainer(),
+                Container(
+                width: 110,
+                height: 110,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD2EBE7),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 95,
+                    height: 95,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(widget.doctors[0]["foto"],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
                   const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        doctors[0]['name'],
+                        widget.doctors[0]['name'],
                         style: GoogleFonts.openSans(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -158,7 +172,7 @@ class _citaState extends State<cita> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        doctors[0]['specialty'],
+                        widget.doctors[0]['specialty'],
                         style: GoogleFonts.openSans(
                           fontSize: 18,
                           color: const Color(0xFF7BC1B7),
@@ -175,7 +189,7 @@ class _citaState extends State<cita> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '${doctors[0]['consultation_fee']}',
+                              text: '${widget.doctors[0]['consultation_fee']}.00',
                               style: const TextStyle(
                                 color: Color(0xFF7BC1B7),
                               ),
@@ -197,7 +211,7 @@ class _citaState extends State<cita> {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   if (selectedDay
-                      .isAfter(DateTime.now().add(const Duration(days: 1)))) {
+                      .isAfter(DateTime.now().add(const Duration(days: 2)))) {
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = selectedDay;
@@ -318,39 +332,3 @@ class _citaState extends State<cita> {
     _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
   }
 }
-
-class ColoredContainer extends StatelessWidget {
-  const ColoredContainer({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 110,
-      height: 110,
-      decoration: BoxDecoration(
-        color: const Color(0xFFD2EBE7),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Container(
-          width: 95,
-          height: 95,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/doctor.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-}
-
