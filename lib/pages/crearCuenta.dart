@@ -38,7 +38,7 @@ class _signState extends State<sign> {
     };
 
     try {
-      await MongoDB.coleccionUsuarios.insertOne(usuario);
+      await UserDB.coleccionUsuarios.insertOne(usuario);
       _nombreController.clear();
       _telefonoController.clear();
       _contrasenaController.clear();
