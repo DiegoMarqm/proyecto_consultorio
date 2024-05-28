@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../db/medicos.dart';
 import 'cita.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MedicosDB.conecctMedicos();
+}
 
 class DoctoresPage extends StatefulWidget {
 
@@ -11,44 +17,18 @@ class DoctoresPage extends StatefulWidget {
 }
 
 class _DoctoresPageState extends State<DoctoresPage> {
-  final List<Map<String, dynamic>> doctors = [
-    {
-      'name': 'Dr. Alejandro',
-      'specialty': 'Pediatria',
-      'image':
-          'https://th.bing.com/th/id/OIP.IVwf85npYYUcwRp4EIhqDgAAAA?w=137&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-    },
-    {
-      'name': 'Dra. María',
-      'specialty': 'Cardiología',
-      'image':
-          'https://th.bing.com/th/id/OIP.JODdTKvCi-ivu28zDmQk8gHaEj?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-    },
-    {
-      'name': 'Dr. Juan',
-      'specialty': 'Dermatología',
-      'image':
-          'https://www.crhoy.com/wp-content/uploads/2019/01/Captura-de-pantalla-2019-01-03-a-las-10.48.27.png',
-    },
-    {
-      'name': 'Dr. Hector',
-      'specialty': 'Pediatria',
-      'image':
-      'https://th.bing.com/th/id/OIP.IVwf85npYYUcwRp4EIhqDgAAAA?w=137&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-    },
-    {
-      'name': 'Dra. Elena',
-      'specialty': 'Cardiología',
-      'image':
-      'https://th.bing.com/th/id/OIP.JODdTKvCi-ivu28zDmQk8gHaEj?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-    },
-    {
-      'name': 'Dr. Diego',
-      'specialty': 'Dermatología',
-      'image':
-      'https://www.crhoy.com/wp-content/uploads/2019/01/Captura-de-pantalla-2019-01-03-a-las-10.48.27.png',
-    },
-  ];
+  List<Map<String, dynamic>> medicos = [];
+  @override
+  void initState() {
+    super.initState();
+    _loadMedicos();
+  }
+
+  _loadMedicos() async {
+    medicos = await MedicosDB.getMedicos();
+    print(medicos);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +66,7 @@ class _DoctoresPageState extends State<DoctoresPage> {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
               child: Column(
-                children: doctors.map((doctor) {
+                children: medicos.map((doctor) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Container(
@@ -105,7 +85,7 @@ class _DoctoresPageState extends State<DoctoresPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                  image: NetworkImage(doctor['image'] ?? ''),
+                                  image: NetworkImage(doctor['foto'] ?? ''),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -119,7 +99,7 @@ class _DoctoresPageState extends State<DoctoresPage> {
                               children: [
                                 const SizedBox(height: 30),
                                 Text(
-                                  doctor['name'] ?? '',
+                                  doctor['nom_doctor'] ?? '',
                                   style: GoogleFonts.openSans(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -136,7 +116,7 @@ class _DoctoresPageState extends State<DoctoresPage> {
                                   ),
                                 ),
                                 Text(
-                                  "${doctor['specialty']}",
+                                  "${doctor['especialidad']}",
                                   style: GoogleFonts.openSans(
                                     fontSize: 17,
                                     color: const Color.fromRGBO(133, 133, 133, 1),
