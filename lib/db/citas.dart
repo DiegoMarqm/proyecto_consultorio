@@ -17,9 +17,20 @@ class CitasDB {
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getCitas() async {
+  static Future<List<Map<String, dynamic>>> getCitas(String fecha) async {
     try {
-      final citas = await coleccionCitas.find().toList();
+      final citas = await coleccionCitas.find({'fecha': fecha}).toList();
+      print("Citas obtenidas con exito");
+      return citas;
+    } catch (e) {
+      print('Error al obtener las citas: $e');
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getCitasFecha(String fecha) async {
+    try {
+      final citas = await coleccionCitas.find({'fecha': fecha}).toList();
       print("Citas obtenidas con exito");
       return citas;
     } catch (e) {

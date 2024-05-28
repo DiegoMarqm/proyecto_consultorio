@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/db/citas.dart';
 import 'package:proyecto_consultorio/pages/confirmacionCita.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
+
+import '../utils/storage.dart';
 
 class cita extends StatefulWidget {
   @override
@@ -11,6 +15,7 @@ class cita extends StatefulWidget {
 class _citaState extends State<cita> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
+  List<String> timeSlots = [];
   int? _selectedTimeIndex;
 
   List<Map<String, dynamic>> doctors = [
@@ -20,35 +25,103 @@ class _citaState extends State<cita> {
       'consultation_fee': '\$120.00',
     },
   ];
+  List<Map<String, dynamic>> citas = [];
 
   @override
   void initState() {
     super.initState();
     _focusedDay = DateTime.now();
-    _selectedDay = DateTime.now().add(const Duration(days: 3));
+    _selectedDay =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+            .add(const Duration(days: 3));
     _selectedTimeIndex = null;
+    _setConection();
   }
 
-  List<String> _generateTimeSlots() {
-    List<String> timeSlots = [];
+  Future<void> _getCitas(String fecha) async {
+    final citas = await CitasDB.getCitasFecha(fecha);
+
+    if (citas.isNotEmpty) {
+      setState(() {
+        timeSlots.clear();
+        List<String> horas =
+            citas.map((cita) => cita['hr_cita'] as String).toList();
+        _generateVariableTimeSlots(horas);
+      });
+    } else {
+      setState(() {
+        timeSlots.clear();
+        _generateTimeSlots();
+      });
+    }
+  }
+
+  void _generateVariableTimeSlots(List<String> horas) {
     DateTime startTime =
         DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
     DateTime endTime = DateTime(
         _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
 
     while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
-      timeSlots.add(
-          '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}');
+      String formattedTime =
+          '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}';
+      if (!horas.contains(formattedTime)) {
+        setState(() {
+          timeSlots.add(formattedTime);
+        });
+      }
       startTime = startTime.add(const Duration(minutes: 30));
     }
+  }
 
-    return timeSlots;
+  Future<void> _registrarCita() async {
+    if (_selectedTimeIndex == null) {
+      return;
+    }
+    Map<String, dynamic> datosusuario = await getSessionData();
+    Map<String, dynamic> infoCita = {
+      'nom_user': datosusuario['nombre'],
+      'nom_doctor': 'juanito perez',
+      'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
+      'hr_cita': timeSlots[_selectedTimeIndex as int],
+      'estado': 'Pendiente'
+    };
+    print(infoCita);
+    try {
+      await CitasDB.coleccionCitas.insertOne(infoCita);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => confirmacionCita(),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Error al registrar el usuario"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      print("Error al registrar el usuario: $e");
+    }
+  }
+
+  void _generateTimeSlots() {
+    DateTime startTime =
+        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+    DateTime endTime = DateTime(
+        _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
+    while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
+      setState(() {
+        timeSlots.add(
+            '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}');
+        startTime = startTime.add(const Duration(minutes: 30));
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> timeSlots = _generateTimeSlots();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -124,11 +197,12 @@ class _citaState extends State<cita> {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   if (selectedDay
-                      .isAfter(DateTime.now().add(const Duration(days: 2)))) {
+                      .isAfter(DateTime.now().add(const Duration(days: 1)))) {
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = selectedDay;
                       _selectedTimeIndex = null;
+                      _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
                     });
                   }
                 },
@@ -171,35 +245,34 @@ class _citaState extends State<cita> {
                 ),
               ),
               const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    timeSlots.length,
-                    (index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedTimeIndex = index;
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: _selectedTimeIndex == index
-                              ? const Color(0xFF0B8FAC)
-                              : const Color(0x40D9D9D9),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            timeSlots[index],
-                            style: GoogleFonts.openSans(
-                              fontSize: 18,
-                              color: _selectedTimeIndex == index
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  timeSlots.length,
+                      (index) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedTimeIndex = index;
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: _selectedTimeIndex == index
+                            ? const Color(0xFF0B8FAC)
+                            : const Color(0x40D9D9D9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          timeSlots[index],
+                          style: GoogleFonts.openSans(
+                            fontSize: 18,
+                            color: _selectedTimeIndex == index
+                                ? Colors.white
+                                : Colors.black,
                           ),
                         ),
                       ),
@@ -207,16 +280,12 @@ class _citaState extends State<cita> {
                   ),
                 ),
               ),
+            ),
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => confirmacionCita(),
-                      ),
-                    );
+                    _registrarCita();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B8FAC),
@@ -243,6 +312,10 @@ class _citaState extends State<cita> {
         ),
       ),
     );
+  }
+  Future<void> _setConection() async {
+    await CitasDB.conecctCitas();
+    _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
   }
 }
 
@@ -278,4 +351,6 @@ class ColoredContainer extends StatelessWidget {
       ),
     );
   }
+
 }
+

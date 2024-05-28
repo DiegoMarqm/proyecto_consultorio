@@ -30,7 +30,6 @@ class _perfilState extends State<perfil> {
         userData[1]['value'] = datosusuario['telefono'];
       });
     }
-    print(userData);
   }
   Widget build(BuildContext context) {
     return Scaffold(
