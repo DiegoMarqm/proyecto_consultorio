@@ -126,7 +126,7 @@ class _DoctoresPageState extends State<DoctoresPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => cita(doctors: [
+                                          builder: (context) => Cita(doctors: [
                                             {
                                               'name': doctor['nom_doctor'],
                                               'specialty': doctor['especialidad'],

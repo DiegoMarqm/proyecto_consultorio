@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => cita(doctors:
+                                      builder: (context) => Cita(doctors:
                                             [{
                                               'name': doc['nom_doctor'],
                                               'specialty': doc['especialidad'],

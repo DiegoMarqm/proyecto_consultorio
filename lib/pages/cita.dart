@@ -7,19 +7,22 @@ import 'package:intl/intl.dart';
 
 import '../utils/storage.dart';
 
-class cita extends StatefulWidget {
-  List<Map<String, dynamic>> doctors = [];
-  cita({required this.doctors});
+class Cita extends StatefulWidget {
+  final List<Map<String, dynamic>> doctors;
+
+  Cita({required this.doctors});
+
   @override
-  _citaState createState() => _citaState();
+  _CitaState createState() => _CitaState();
 }
 
-class _citaState extends State<cita> {
+class _CitaState extends State<Cita> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
   bool citaRegistrada = false;
   List<String> timeSlots = [];
   int? _selectedTimeIndex;
+
   @override
   void initState() {
     super.initState();
@@ -29,12 +32,16 @@ class _citaState extends State<cita> {
     _setConection();
   }
 
+  Future<void> _setConection() async {
+    await CitasDB.conecctCitas();
+    _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
+  }
+
   Future<void> _getCitas(String fecha) async {
     Map<String, dynamic> datosusuario = await getSessionData();
     String nombrePac = datosusuario['nombre'];
     String nombreDoc = widget.doctors[0]['name'];
     bool citaExistente = await CitasDB.getCitasDocUser(nombreDoc, nombrePac);
-    print(citaExistente);
     setState(() {
       citaRegistrada = citaExistente;
     });
@@ -43,8 +50,7 @@ class _citaState extends State<cita> {
       if (citas.isNotEmpty) {
         setState(() {
           timeSlots.clear();
-          List<String> horas =
-              citas.map((cita) => cita['hr_cita'] as String).toList();
+          List<String> horas = citas.map((cita) => cita['hr_cita'] as String).toList();
           _generateVariableTimeSlots(horas);
         });
       } else {
@@ -57,18 +63,13 @@ class _citaState extends State<cita> {
   }
 
   void _generateVariableTimeSlots(List<String> horas) {
-    DateTime startTime =
-        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
-    DateTime endTime = DateTime(
-        _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
+    DateTime startTime = DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+    DateTime endTime = DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
 
     while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
-      String formattedTime =
-          '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}';
+      String formattedTime = '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}';
       if (!horas.contains(formattedTime)) {
-        setState(() {
-          timeSlots.add(formattedTime);
-        });
+        timeSlots.add(formattedTime);
       }
       startTime = startTime.add(const Duration(minutes: 30));
     }
@@ -83,7 +84,7 @@ class _citaState extends State<cita> {
       'nom_user': datosusuario['nombre'],
       'nom_doctor': widget.doctors[0]['name'],
       'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
-      'hr_cita': timeSlots[_selectedTimeIndex as int],
+      'hr_cita': timeSlots[_selectedTimeIndex!],
       'estado': 'Pendiente'
     };
     try {
@@ -106,16 +107,12 @@ class _citaState extends State<cita> {
   }
 
   void _generateTimeSlots() {
-    DateTime startTime =
-        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
-    DateTime endTime = DateTime(
-        _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
+    DateTime startTime = DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+    DateTime endTime = DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
     while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
-      setState(() {
-        timeSlots.add(
-            '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}');
-        startTime = startTime.add(const Duration(minutes: 30));
-      });
+      timeSlots.add(
+          '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.hour < 12 ? 'AM' : 'PM'}');
+      startTime = startTime.add(const Duration(minutes: 30));
     }
   }
 
@@ -197,8 +194,7 @@ class _citaState extends State<cita> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text:
-                                  '${widget.doctors[0]['consultation_fee']}.00',
+                              text: '${widget.doctors[0]['consultation_fee']}.00',
                               style: const TextStyle(
                                 color: Color(0xFF7BC1B7),
                               ),
@@ -219,15 +215,13 @@ class _citaState extends State<cita> {
                   return isSameDay(_selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  if (selectedDay
-                      .isAfter(DateTime.now().add(const Duration(days: 2)))) {
+                  if (selectedDay.isAfter(DateTime.now().add(const Duration(days: 2)))) {
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = selectedDay;
                       _selectedTimeIndex = null;
                       if (!citaRegistrada) {
-                        _getCitas(
-                            DateFormat('dd-MM-yyyy').format(_selectedDay));
+                        _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
                       }
                     });
                   }
@@ -286,7 +280,7 @@ class _citaState extends State<cita> {
                   child: Row(
                     children: List.generate(
                       timeSlots.length,
-                      (index) => GestureDetector(
+                          (index) => GestureDetector(
                         onTap: () {
                           setState(() {
                             _selectedTimeIndex = index;
@@ -320,15 +314,10 @@ class _citaState extends State<cita> {
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    _registrarCita();
-                  },
+                  onPressed: citaRegistrada ? null : _registrarCita,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B8FAC),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 120, vertical: 16),
-                    disabledBackgroundColor: const Color(0xFF0B8FAC),
-                    disabledForegroundColor: Colors.white.withOpacity(0.5),
+                    padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -347,36 +336,6 @@ class _citaState extends State<cita> {
           ),
         ),
       ),
-      const SizedBox(height: 30),
-      Center(
-        child: ElevatedButton(
-          onPressed: () {
-            _registrarCita();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0B8FAC),
-            padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
-            disabledBackgroundColor: const Color(0xFF0B8FAC),
-            disabledForegroundColor: Colors.white.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Text(
-            'Aceptar',
-            style: GoogleFonts.openSans(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
     );
-  }
-
-  Future<void> _setConection() async {
-    await CitasDB.conecctCitas();
-    _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
   }
 }
