@@ -7,7 +7,7 @@ import 'package:proyecto_consultorio/pages/doctores.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await MedicosDB.conecctMedicos();
-  runApp( HomePage());
+  runApp(const HomePage());
 }
 
 class HomePage extends StatefulWidget {
@@ -34,37 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> data = [
-      {"text": "Pediatría"},
-      {"text": "Traumatología"},
-      {"text": "Ginecología"},
-    ];
-    List<Map<String, dynamic>> doctores = [
-      {
-        'name': 'Dr. Alejandro',
-        'specialty': 'Pediatria',
-        'image':
-            'https://th.bing.com/th/id/OIP.IVwf85npYYUcwRp4EIhqDgAAAA?w=137&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-      },
-      {
-        'name': 'Dra. María',
-        'specialty': 'Cardiología',
-        'image':
-            'https://th.bing.com/th/id/OIP.JODdTKvCi-ivu28zDmQk8gHaEj?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7', // URL de la imagen del doctor
-      },
-      {
-        'name': 'Dr. Juan Pérez',
-        'specialty': 'Dermatología',
-        'image':
-            'https://www.crhoy.com/wp-content/uploads/2019/01/Captura-de-pantalla-2019-01-03-a-las-10.48.27.png',
-      },
-      // Puedes agregar más doctores si lo deseas
-    ];
-
     List<String> especialidades = medicos.map((doctor) => doctor['especialidad'] as String).toSet().toList()..sort((a, b) => a.compareTo(b));
-
-    print('Especialidades: $especialidades');
-
 
     return ListView(
       children: [
@@ -84,12 +54,11 @@ class _HomePageState extends State<HomePage> {
               floatingLabelBehavior: FloatingLabelBehavior.never, // Evita que el texto de la etiqueta aparezca cuando se enfoca el TextField
             ),
           ),
-
         ),
         Container(
           alignment: Alignment.centerLeft,
           child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
+              padding: const EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
               child: Text(
                 "Especialidades",
                 style: GoogleFonts.openSans(
@@ -149,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding:
-                      EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
+                      const EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
                   child: Text(
                     "Doctores",
                     style: GoogleFonts.openSans(
@@ -230,13 +199,13 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(133, 133, 133, 1),
+                                color: const Color.fromRGBO(133, 133, 133, 1),
                               ),
                             ),
                             Text("${doc['especialidad']}",
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
-                                color: Color.fromRGBO(133, 133, 133, 1),
+                                color: const Color.fromRGBO(133, 133, 133, 1),
                               ),),
                             const SizedBox(height: 15),
                             ElevatedButton(
