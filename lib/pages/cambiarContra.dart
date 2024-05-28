@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'package:proyecto_consultorio/pages/exitoContra.dart';
+import 'package:proyecto_consultorio/utils/storage.dart';
 
 class changePass extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _changePassState extends State<changePass> {
 
   final _contra1 = TextEditingController();
   final _contra2 = TextEditingController();
+  String _contra = '';
 
   Future<void> _checarContra() async {
     String contra1 = _contra1.text;
@@ -30,6 +32,21 @@ class _changePassState extends State<changePass> {
       }
     }
   }
+  @override
+  void initState(){
+    super.initState();
+    _contraActual();
+  }
+  Future<void> _contraActual() async{
+    Map<String, dynamic> userContra = await getSessionData();
+    if (userContra.isNotEmpty){
+      setState(() {
+        _contra = userContra['contra'];
+      });
+    }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +108,14 @@ class _changePassState extends State<changePass> {
                   padding:
                       EdgeInsets.only(left: 15, top: 10, right: 10, bottom: 5),
                   child: Text(
-                    "Contraseña actual",
+                    'Contraseña actual',
                     style: TextStyle(
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
-                  )),
+                  )
+              ),
             ),
             const SizedBox(
               height: 5,
@@ -123,12 +141,11 @@ class _changePassState extends State<changePass> {
                   ),
                   filled: true,
                   fillColor: const Color(0x40D9D9D9),
-                  hintText: "Aqui va contraseña actual",
+                  hintText: _contra,
                   hintStyle: const TextStyle(color: Colors.grey),
                 ),
-                readOnly: true,
-                obscureText: _ocultarContra,
-                obscuringCharacter: "•",
+                //readOnly: true,
+                enabled: false,
               ),
             ),
             const SizedBox(
