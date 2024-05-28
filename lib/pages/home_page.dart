@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> medicos = [];
-
+  List<Map<String, dynamic>> medicosAle = [];
   @override
   void initState() {
     super.initState();
@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   _loadMedicos() async {
     medicos = await MedicosDB.getMedicos();
+    medicosAle = await MedicosDB.getMedicosAleatorios();
     setState(() {});
   }
 
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
           child: Column(
-            children: doctores.map((doctor) {
+            children: medicosAle.map((doc) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
@@ -202,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(doctor['image'] ?? ''),
+                              image: NetworkImage(doc['foto'] ?? ''),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -216,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             const SizedBox(height: 30),
                             Text(
-                              doctor['name'] ?? '',
+                              doc['nom_doctor'] ?? '',
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -232,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Color.fromRGBO(133, 133, 133, 1),
                               ),
                             ),
-                            Text("${doctor['specialty']}",
+                            Text("${doc['especialidad']}",
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 color: Color.fromRGBO(133, 133, 133, 1),
