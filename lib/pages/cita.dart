@@ -45,7 +45,7 @@ class _citaState extends State<cita> {
       setState(() {
         timeSlots.clear();
         List<String> horas =
-            citas.map((cita) => cita['hr_cita'] as String).toList();
+        citas.map((cita) => cita['hr_cita'] as String).toList();
         _generateVariableTimeSlots(horas);
       });
     } else {
@@ -58,7 +58,7 @@ class _citaState extends State<cita> {
 
   void _generateVariableTimeSlots(List<String> horas) {
     DateTime startTime =
-        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+    DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
     DateTime endTime = DateTime(
         _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
 
@@ -82,7 +82,7 @@ class _citaState extends State<cita> {
     Map<String, dynamic> infoCita = {
       'nom_user': datosusuario['nombre'],
       'nom_doctor': 'juanito perez',
-      'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
+      'fecha': DateFormat('dd \'de\' MMMM yyyy').format(_selectedDay), // Cambio aquí
       'hr_cita': timeSlots[_selectedTimeIndex as int],
       'estado': 'Pendiente'
     };
@@ -108,7 +108,7 @@ class _citaState extends State<cita> {
 
   void _generateTimeSlots() {
     DateTime startTime =
-        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+    DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
     DateTime endTime = DateTime(
         _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
     while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
@@ -123,196 +123,197 @@ class _citaState extends State<cita> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Cita",
-          style: GoogleFonts.openSans(
-            color: const Color(0xFF0B8FAC),
-            fontSize: 27,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          title: Text(
+            "Cita",
+            style: GoogleFonts.openSans(
+              color: const Color(0xFF0B8FAC),
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const ColoredContainer(),
-                  const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        doctors[0]['name'],
-                        style: GoogleFonts.openSans(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        doctors[0]['specialty'],
-                        style: GoogleFonts.openSans(
-                          fontSize: 18,
-                          color: const Color(0xFF7BC1B7),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Consulta ',
-                          style: GoogleFonts.openSans(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: '${doctors[0]['consultation_fee']}',
-                              style: const TextStyle(
-                                color: Color(0xFF7BC1B7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              TableCalendar(
-                firstDay: DateTime.utc(2024, 1, 1),
-                lastDay: DateTime.utc(2026, 12, 31),
-                focusedDay: _focusedDay,
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  if (selectedDay
-                      .isAfter(DateTime.now().add(const Duration(days: 1)))) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = selectedDay;
-                      _selectedTimeIndex = null;
-                      _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
-                    });
-                  }
-                },
-                calendarStyle: const CalendarStyle(
-                  selectedDecoration: BoxDecoration(
-                    color: Color(0xFF0B8FAC),
-                    shape: BoxShape.circle,
-                  ),
-                  todayDecoration: BoxDecoration(
-                    color: Color(0x400B8FAC),
-                    shape: BoxShape.circle,
-                  ),
-                  todayTextStyle: TextStyle(color: Colors.black),
-                  markerDecoration: BoxDecoration(
-                    color: Color(0xFF0B8FAC),
-                    shape: BoxShape.circle,
-                  ),
+        padding: const EdgeInsets.all(20.0),
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    const SizedBox(height: 20),
+    Row(
+    children: [
+    const ColoredContainer(),
+    const SizedBox(width: 20),
+    Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    Text(
+    doctors[0]['name'],
+    style: GoogleFonts.openSans(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    ),
+    ),
+    const SizedBox(height: 10),
+    Text(
+    doctors[0]['specialty'],
+    style: GoogleFonts.openSans(
+    fontSize: 18,
+    color: const Color(0xFF7BC1B7),
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    const SizedBox(height: 10),
+    RichText(
+    text: TextSpan(
+    text: 'Consulta ',
+    style: GoogleFonts.openSans(
+    fontSize: 18,
+    color: Colors.black,
+    ),
+    children: <TextSpan>[
+    TextSpan(
+    text: '${doctors[0]['consultation_fee']}',
+    style: const TextStyle(
+    color: Color(0xFF7BC1B7),
+    ),
+    ),
+    ],
+    ),
+    ),
+    ],
+    ),
+    ],
+    ),
+    const SizedBox(height: 20),
+    TableCalendar(
+    firstDay: DateTime.utc(2024, 1, 1),
+    lastDay: DateTime.utc(2026, 12, 31),
+    focusedDay: _focusedDay,
+    selectedDayPredicate: (day) {
+    return isSameDay(_selectedDay, day);
+    },
+    onDaySelected: (selectedDay, focusedDay) {
+    if (selectedDay
+        .isAfter(DateTime.now().add(const Duration(days: 1)))) {
+    setState(() {
+    _selectedDay = selectedDay;
+    _focusedDay = selectedDay;
+    _selectedTimeIndex= null;
+    _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
+    });
+    }
+    },
+      calendarStyle: const CalendarStyle(
+        selectedDecoration: BoxDecoration(
+          color: Color(0xFF0B8FAC),
+          shape: BoxShape.circle,
+        ),
+        todayDecoration: BoxDecoration(
+          color: Color(0x400B8FAC),
+          shape: BoxShape.circle,
+        ),
+        todayTextStyle: TextStyle(color: Colors.black),
+        markerDecoration: BoxDecoration(
+          color: Color(0xFF0B8FAC),
+          shape: BoxShape.circle,
+        ),
+      ),
+      daysOfWeekStyle: const DaysOfWeekStyle(
+        weekdayStyle: TextStyle(fontWeight: FontWeight.bold),
+        weekendStyle: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      headerStyle: const HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+        titleTextStyle: TextStyle(
+          color: Color(0xFF0B8FAC),
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+        ),
+      ),
+    ),
+      const SizedBox(height: 20),
+      Text(
+        'Horarios disponibles',
+        style: GoogleFonts.openSans(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+      const SizedBox(height: 20),
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            timeSlots.length,
+                (index) => GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedTimeIndex = index;
+                });
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: _selectedTimeIndex == index
+                      ? const Color(0xFF0B8FAC)
+                      : const Color(0x40D9D9D9),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                daysOfWeekStyle: const DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(fontWeight: FontWeight.bold),
-                  weekendStyle: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                headerStyle: const HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true,
-                  titleTextStyle: TextStyle(
-                    color: Color(0xFF0B8FAC),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Horarios disponibles',
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 20),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  timeSlots.length,
-                      (index) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedTimeIndex = index;
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: _selectedTimeIndex == index
-                            ? const Color(0xFF0B8FAC)
-                            : const Color(0x40D9D9D9),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          timeSlots[index],
-                          style: GoogleFonts.openSans(
-                            fontSize: 18,
-                            color: _selectedTimeIndex == index
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
+                child: Center(
+                  child: Text(
+                    timeSlots[index],
+                    style: GoogleFonts.openSans(
+                      fontSize: 18,
+                      color: _selectedTimeIndex == index
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
                 ),
               ),
             ),
-              const SizedBox(height: 30),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _registrarCita();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0B8FAC),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 120, vertical: 16),
-                    disabledBackgroundColor: const Color(0xFF0B8FAC),
-                    disabledForegroundColor: Colors.white.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Aceptar',
-                    style: GoogleFonts.openSans(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),
+      const SizedBox(height: 30),
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            _registrarCita();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF0B8FAC),
+            padding: const EdgeInsets.symmetric(
+                horizontal: 120, vertical: 16),
+            disabledBackgroundColor: const Color(0xFF0B8FAC),
+            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Text(
+            'Aceptar',
+            style: GoogleFonts.openSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ],
+    ),
+        ),
+        ),
     );
   }
+
   Future<void> _setConection() async {
     await CitasDB.conecctCitas();
     _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
@@ -351,6 +352,4 @@ class ColoredContainer extends StatelessWidget {
       ),
     );
   }
-
 }
-
