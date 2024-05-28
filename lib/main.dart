@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_consultorio/db/medicos.dart';
 import 'package:proyecto_consultorio/pages/inicio.dart';
 import 'package:proyecto_consultorio/pages/login.dart';
 //importar de la base
@@ -10,6 +11,7 @@ import 'package:proyecto_consultorio/utils/storage.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await UserDB.conecctUsers();
+  await MedicosDB.conecctMedicos();
   runApp(const MyApp());
 }
 

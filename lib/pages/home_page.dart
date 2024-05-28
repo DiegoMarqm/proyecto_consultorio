@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/db/medicos.dart';
 import 'package:proyecto_consultorio/pages/cita.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
-class HomePage extends StatelessWidget {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await MedicosDB.conecctMedicos();
+  runApp( HomePage());
+}
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> medicos = [];
+  List<Map<String, dynamic>> medicosAle = [];
+  @override
+  void initState() {
+    super.initState();
+    _loadMedicos();
+  }
+
+  _loadMedicos() async {
+    medicos = await MedicosDB.getMedicos();
+    medicosAle = await MedicosDB.getMedicosAleatorios();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +60,12 @@ class HomePage extends StatelessWidget {
       },
       // Puedes agregar más doctores si lo deseas
     ];
+
+    List<String> especialidades = medicos.map((doctor) => doctor['especialidad'] as String).toSet().toList()..sort((a, b) => a.compareTo(b));
+
+    print('Especialidades: $especialidades');
+
+
     return ListView(
       children: [
         const Padding(
@@ -73,9 +105,9 @@ class HomePage extends StatelessWidget {
             height: 80,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: data.length,
+              itemCount: especialidades.length,
               itemBuilder: (context, index) {
-                final item = data[index];
+                final especialidad = especialidades[index];
                 return Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: IntrinsicWidth(
@@ -93,7 +125,7 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              item["text"]!,
+                              especialidad,
                               style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -152,7 +184,7 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
           child: Column(
-            children: doctores.map((doctor) {
+            children: medicosAle.map((doc) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
@@ -171,7 +203,7 @@ class HomePage extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(doctor['image'] ?? ''),
+                              image: NetworkImage(doc['foto'] ?? ''),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -185,7 +217,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             const SizedBox(height: 30),
                             Text(
-                              doctor['name'] ?? '',
+                              doc['nom_doctor'] ?? '',
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -201,7 +233,7 @@ class HomePage extends StatelessWidget {
                                 color: Color.fromRGBO(133, 133, 133, 1),
                               ),
                             ),
-                            Text("${doctor['specialty']}",
+                            Text("${doc['especialidad']}",
                               style: GoogleFonts.openSans(
                                 fontSize: 17,
                                 color: Color.fromRGBO(133, 133, 133, 1),

@@ -21,7 +21,23 @@ class MedicosDB{
     try {
       final medicos = await coleccionMedicos.find().toList();
       print("Medicos obtenidos con exito");
+      //print(medicos);
       return medicos;
+    } catch (e) {
+      print('Error al obtener los medicos: $e');
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getMedicosAleatorios() async{
+    try {
+      final medicosAle = await coleccionMedicos.aggregateToStream([
+        {
+          '\$sample': {'size': 3}
+        }
+      ]).toList();
+      print("Medicos aleatorios con exito");
+      return medicosAle;
     } catch (e) {
       print('Error al obtener los medicos: $e');
       return [];

@@ -57,8 +57,8 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_native_splash:
-  color: "#42a5f5"
-  image: assets/logo.jpg
+  color: "#FFFFFF"
+  image: assets/sanatecl.png
   android: true
 # The following section is specific to Flutter packages.
 flutter:
@@ -81,6 +81,7 @@ flutter:
     - assets/doctor.jpg
     - assets/sanatec.jpg
     - assets/check.jpg
+    - assets/sanatecl.png
     - assets/sanateclogo.png
 
 

@@ -17,48 +17,6 @@ class _signState extends State<sign> {
   final _telefonoController = TextEditingController();
   final _contrasenaController = TextEditingController();
 
-  Future<void> _registrarUsuario() async {
-    String nombre = _nombreController.text;
-    String telefono = _telefonoController.text;
-    String contrasena = _contrasenaController.text;
-
-    if (nombre.isEmpty || telefono.isEmpty || contrasena.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Por favor llene todos los campos"),
-        ),
-      );
-      return;
-    }
-
-    Map<String, dynamic> usuario = {
-      "nom_user": nombre,
-      "telefono": telefono,
-      "pass": contrasena,
-    };
-
-    try {
-      await UserDB.coleccionUsuarios.insertOne(usuario);
-      _nombreController.clear();
-      _telefonoController.clear();
-      _contrasenaController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Usuario Registrado con exito"),
-          backgroundColor: Colors.green,
-        ),
-      );
-      print("Usuario Registrado");
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Error al registrar el usuario"),
-          backgroundColor: Colors.red,
-        ),
-      );
-      print("Error al registrar el usuario: $e");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,13 +180,60 @@ class _signState extends State<sign> {
               padding: const EdgeInsets.only(top: 10),
               child: ElevatedButton(
                 onPressed: () {
+                  Future<void> _registrarUsuario() async {
+                    String nombre = _nombreController.text;
+                    String telefono = _telefonoController.text;
+                    String contrasena = _contrasenaController.text;
+
+                    if (nombre.isEmpty || telefono.isEmpty || contrasena.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Por favor llene todos los campos"),
+                        ),
+                      );
+                      return;
+                    }
+
+                    Map<String, dynamic> usuario = {
+                      "nom_user": nombre,
+                      "telefono": telefono,
+                      "pass": contrasena,
+                    };
+
+                    try {
+                      await UserDB.coleccionUsuarios.insertOne(usuario);
+                      _nombreController.clear();
+                      _telefonoController.clear();
+                      _contrasenaController.clear();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Usuario Registrado con exito"),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      print("Usuario Registrado");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => login(),
+                        ),
+                      );
+
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Error al registrar el usuario"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      print("Error al registrar el usuario: $e");
+                    }
+                  }
+
+
                   _registrarUsuario();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => login(),
-                    ),
-                  );
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B8FAC),
