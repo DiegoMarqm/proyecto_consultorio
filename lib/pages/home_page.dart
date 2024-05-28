@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/db/medicos.dart';
 import 'package:proyecto_consultorio/pages/cita.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
-class HomePage extends StatelessWidget {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await MedicosDB.conecctMedicos();
+  runApp( HomePage());
+}
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> medicos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMedicos();
+  }
+
+  _loadMedicos() async {
+    medicos = await MedicosDB.getMedicos();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +59,12 @@ class HomePage extends StatelessWidget {
       },
       // Puedes agregar más doctores si lo deseas
     ];
+
+    List<String> especialidades = medicos.map((doctor) => doctor['especialidad'] as String).toSet().toList()..sort((a, b) => a.compareTo(b));
+
+    print('Especialidades: $especialidades');
+
+
     return ListView(
       children: [
         const Padding(
@@ -73,9 +104,9 @@ class HomePage extends StatelessWidget {
             height: 80,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: data.length,
+              itemCount: especialidades.length,
               itemBuilder: (context, index) {
-                final item = data[index];
+                final especialidad = especialidades[index];
                 return Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: IntrinsicWidth(
@@ -93,7 +124,7 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              item["text"]!,
+                              especialidad,
                               style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,

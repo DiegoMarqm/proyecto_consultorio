@@ -21,6 +21,7 @@ class MedicosDB{
     try {
       final medicos = await coleccionMedicos.find().toList();
       print("Medicos obtenidos con exito");
+      //print(medicos);
       return medicos;
     } catch (e) {
       print('Error al obtener los medicos: $e');
