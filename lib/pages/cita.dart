@@ -58,7 +58,7 @@ class _citaState extends State<cita> {
 
   void _generateVariableTimeSlots(List<String> horas) {
     DateTime startTime =
-    DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
     DateTime endTime = DateTime(
         _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
 
@@ -107,7 +107,7 @@ class _citaState extends State<cita> {
 
   void _generateTimeSlots() {
     DateTime startTime =
-    DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
+        DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day, 9, 0);
     DateTime endTime = DateTime(
         _selectedDay.year, _selectedDay.month, _selectedDay.day, 16, 0);
     while (startTime.isBefore(endTime) || startTime.isAtSameMomentAs(endTime)) {
@@ -122,18 +122,18 @@ class _citaState extends State<cita> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Cita",
-            style: GoogleFonts.openSans(
-              color: const Color(0xFF0B8FAC),
-              fontSize: 27,
-              fontWeight: FontWeight.bold,
-            ),
+      appBar: AppBar(
+        title: Text(
+          "Cita",
+          style: GoogleFonts.openSans(
+            color: const Color(0xFF0B8FAC),
+            fontSize: 27,
+            fontWeight: FontWeight.bold,
           ),
-          centerTitle: true,
         ),
-        body: SingleChildScrollView(
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -355,8 +355,7 @@ class _citaState extends State<cita> {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF0B8FAC),
-            padding: const EdgeInsets.symmetric(
-                horizontal: 120, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
             disabledBackgroundColor: const Color(0xFF0B8FAC),
             disabledForegroundColor: Colors.white.withOpacity(0.5),
             shape: RoundedRectangleBorder(
@@ -373,7 +372,7 @@ class _citaState extends State<cita> {
           ),
         ),
       ),
-    ),
+    );
   }
 
   Future<void> _setConection() async {

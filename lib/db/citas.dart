@@ -42,15 +42,18 @@ class CitasDB {
   }
   static Future<bool> getCitasDocUser(String nombre, String nombreUser) async {
     try {
-      final citas = await coleccionCitas.find({'nom_doctor':nombre,'nom_user':nombreUser,'estado':'Pendiente'}).toList();
-      if(citas.isNotEmpty){
+      final citas = await coleccionCitas.find(
+          {'nom_doctor': nombre, 'nom_user': nombreUser, 'estado': 'Pendiente'})
+          .toList();
+      if (citas.isNotEmpty) {
         return true;
       }
       return false;
-
     } catch (e) {
       print('Error al obtener las citas: $e');
       return false;
+    }
+  }
   static Future<List<Map<String, dynamic>>> getCitasUsuario(String nombre) async {
     try {
       final citas = await coleccionCitas.find({'nom_user':nombre}).toList();
