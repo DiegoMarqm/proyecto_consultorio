@@ -83,7 +83,7 @@ class _CitaState extends State<Cita> {
     Map<String, dynamic> infoCita = {
       'nom_user': datosusuario['nombre'],
       'nom_doctor': widget.doctors[0]['name'],
-      'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
+      'fecha': DateFormat('dd \'de\' MMMM yyyy').format(_selectedDay),
       'hr_cita': timeSlots[_selectedTimeIndex!],
       'estado': 'Pendiente'
     };
