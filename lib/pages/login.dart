@@ -47,7 +47,7 @@ class _loginState extends State<login> {
           children: [
             const SizedBox(height: 50),
             const Text(
-              "Bienvenidos",
+              "Bienvenido",
               style: TextStyle(
                 fontFamily: 'OpenSans',
                 color: Color(0xFF0B8FAC),
@@ -57,7 +57,7 @@ class _loginState extends State<login> {
             ),
             const SizedBox(height: 10),
             Image.asset(
-              'assets/sanatec.jpg',
+              'assets/sanateclogo.png',
               width: 130,
             ), //no se porque aparece una linea verde abajo cuando lo ves en web
             const SizedBox(height: 15),

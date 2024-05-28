@@ -79,7 +79,7 @@ class _signState extends State<sign> {
             ),
             const SizedBox(height: 30),
             Image.asset(
-              'assets/sanatec.jpg',
+              'assets/sanateclogo.png',
               width: 130,
             ),
             const SizedBox(height: 10),
@@ -214,7 +214,7 @@ class _signState extends State<sign> {
                   ),
                 ),
                 obscureText: _ocultarContra,
-                obscuringCharacter: "*",
+                obscuringCharacter: "•",
               ),
             ),
             const SizedBox(height: 10),
@@ -239,7 +239,7 @@ class _signState extends State<sign> {
                   ),
                 ),
                 child: Text(
-                  "Ingresar",
+                  "Crear cuenta",
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
