@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_consultorio/pages/login.dart';
 import 'package:proyecto_consultorio/pages/perfil.dart';
+import 'package:proyecto_consultorio/utils/storage.dart';
 
 class exitoContra extends StatelessWidget {
   @override
@@ -45,6 +47,11 @@ class exitoContra extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  deleteSessionData();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => login()),);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B8FAC),
