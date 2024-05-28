@@ -9,8 +9,7 @@ void main() async {
 }
 
 class DoctoresPage extends StatefulWidget {
-
-  DoctoresPage({super.key});
+  const DoctoresPage({super.key});
 
   @override
   State<DoctoresPage> createState() => _DoctoresPageState();
@@ -26,7 +25,6 @@ class _DoctoresPageState extends State<DoctoresPage> {
 
   _loadMedicos() async {
     medicos = await MedicosDB.getMedicos();
-    print(medicos);
     setState(() {});
   }
 

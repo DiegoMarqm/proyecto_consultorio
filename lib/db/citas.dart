@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:proyecto_consultorio/utils/constantes.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -36,6 +38,19 @@ class CitasDB {
     } catch (e) {
       print('Error al obtener las citas: $e');
       return [];
+    }
+  }
+  static Future<bool> getCitasDocUser(String nombre, String nombreUser) async {
+    try {
+      final citas = await coleccionCitas.find({'nom_doctor':nombre,'nom_user':nombreUser,'estado':'Pendiente'}).toList();
+      if(citas.isNotEmpty){
+        return true;
+      }
+      return false;
+
+    } catch (e) {
+      print('Error al obtener las citas: $e');
+      return false;
     }
   }
 }
