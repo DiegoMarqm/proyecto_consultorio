@@ -22,7 +22,6 @@ class _perfilState extends State<perfil> {
     _loadData();
   }
   Future<void> _loadData() async {
-    // Recuperar datos de usuario del almacenamiento
     Map<String, dynamic> datosusuario = await getSessionData();
     if (datosusuario.isNotEmpty) {
       setState(() {

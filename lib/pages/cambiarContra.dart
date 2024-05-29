@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/widgets.dart';
 import 'package:proyecto_consultorio/db/usuarios.dart';
 import 'package:proyecto_consultorio/pages/exitoContra.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
@@ -22,25 +20,18 @@ class _changePassState extends State<changePass> {
   String _contra = '';
   String _usuario = '';
 
-  Future<void> _checarContra() async {
-    String contra1 = _contra1.text;
-    String contra2 = _contra2.text;
 
-    if (contra1.isEmpty && contra2.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Por favor llene todos los campos")));
-    } else {
-      if (contra1 != contra2) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Contraseñas no coinciden")));
-      }
-    }
-  }
   @override
   void initState(){
     super.initState();
     _contraActual();
+    _setConection();
   }
+
+  Future<void> _setConection() async {
+    await UserDB.conecctUsers();
+  }
+
   Future<void> _contraActual() async{
     Map<String, dynamic> userContra = await getSessionData();
     if (userContra.isNotEmpty){
@@ -49,7 +40,24 @@ class _changePassState extends State<changePass> {
         _usuario = userContra['nombre'];
       });
     }
+  }
 
+  Future<bool> _checarContra() async {
+    String contra1 = _contra1.text;
+    String contra2 = _contra2.text;
+
+    if (contra1.isEmpty || contra2.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Por favor llene todos los campos")));
+      return false;
+    } else {
+      if (contra1 != contra2) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Contraseñas no coinciden")));
+        return false;
+      }
+    }
+    return true;
   }
 
 
@@ -272,54 +280,31 @@ class _changePassState extends State<changePass> {
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: ElevatedButton(
-                onPressed: () {
-                  Future<void> _checarContra() async {
-                    String contra1 = _contra1.text;
-                    String contra2 = _contra2.text;
-
-                    if (contra1.isEmpty && contra2.isEmpty ||
-                        contra1.isEmpty ||
-                        contra2.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Por favor llene todos los campos")));
-                    } else if (contra1 != contra2) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Contraseñas no coinciden")));
-                    } else {
-
-                      Future<void> _updateContra() async{
-                        await UserDB.coleccionUsuarios.update(
-                          mongo.where.eq('nom_user', _usuario),
-                          mongo.modify.set('pass', contra1)
-                        );
-                        _contraActual();
-                      }
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => exitoContra(),
-                        ),
-                      );
-                    }
+                onPressed: () async {
+                  if(await _checarContra()){
+                    UserDB.updateContra(_usuario, _contra1.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => exitoContra(),
+                      ),
+                    );
                   }
-
-                  _checarContra();
                 },
-                child: Text(
-                  "Aceptar",
-                  style: GoogleFonts.openSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B8FAC),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 130, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "Aceptar",
+                  style: GoogleFonts.openSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),

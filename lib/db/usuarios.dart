@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:proyecto_consultorio/utils/constantes.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 const usersCole = "usuarios";
 
@@ -29,4 +30,26 @@ class UserDB{
       return [];
     }
   }
+
+
+  static Future<void> updateContra(String _usuario, String contra) async {
+    try {
+
+      // Actualización en la base de datos
+      final result = await coleccionUsuarios.update(
+          mongo.where.eq('nom_user', _usuario),
+          mongo.modify.set('pass', contra)
+      );
+
+      // Verificación del resultado
+      if (result['nModified'] == 0) {
+        print('No se encontró el usuario o la contraseña ya es la misma.');
+      } else {
+        print('Contraseña actualizada correctamente.');
+      }
+    } catch (e) {
+      print('Error actualizando la contraseña: $e');
+    }
+  }
+
 }
