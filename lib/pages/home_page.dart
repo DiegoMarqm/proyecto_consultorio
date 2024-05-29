@@ -42,10 +42,10 @@ class _HomePageState extends State<HomePage> {
         return nombreDoctor.contains(busquedaText.toLowerCase()) || especialidadDoctor.contains(busquedaText.toLowerCase());
       }).toList();
     }else{
-      medicos = medicosAle;
+      setState(() {
+        medicos = medicosAle;
+      });
     }
-    //print(medicosAle);
-    setState(() {});
   }
 
   @override
@@ -233,7 +233,6 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 15),
                             ElevatedButton(
                               onPressed: () {
-                                print(doc);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

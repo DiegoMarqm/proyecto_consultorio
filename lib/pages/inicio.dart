@@ -41,7 +41,6 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 color: const Color.fromRGBO(11, 143, 172, 1),
               ),
             ),
-
           ),
           Container(
             decoration: BoxDecoration(

@@ -54,7 +54,7 @@ class _HistoryPageState extends State<HistoryPage> {
               Color iconColor;
               if(cita['estado'] == 'Pendiente') {
                 iconColor = Colors.green;
-              } else if(cita['estado']== 'Atendido'){
+              } else if(cita['estado']== 'Atendida'){
                 iconColor = Colors.blue;
               }else{
                 iconColor = Colors.red;

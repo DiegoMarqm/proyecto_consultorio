@@ -121,8 +121,6 @@ class CitasDB {
               .eq('fecha', fecha)
               .eq('hr_cita', hora),
           mongo.modify.set('estado', 'Cancelada'));
-
-      // Verificación del resultado
       if (result['nModified'] == 0) {
         print('No se encontró ninguna cita que coincida con los criterios.');
       } else {
