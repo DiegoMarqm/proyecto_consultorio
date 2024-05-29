@@ -50,6 +50,16 @@ class _HistoryPageState extends State<HistoryPage> {
             itemCount: citas.length,
             itemBuilder: (context, index) {
               final cita = citas.reversed.toList()[index];
+
+              Color iconColor;
+              if(cita['estado'] == 'Pendiente') {
+                iconColor = Colors.green;
+              } else if(cita['estado']== 'Atendido'){
+                iconColor = Colors.blue;
+              }else{
+                iconColor = Colors.red;
+              }
+
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -73,9 +83,10 @@ class _HistoryPageState extends State<HistoryPage> {
                           width: 80,
                           height: 80,
                           decoration: const BoxDecoration(),
-                          child: const Icon(
+                          child: Icon(
                             Icons.notifications_none,
                             size: 35,
+                            color: iconColor,
                           ),
                         ),
                         Expanded(
