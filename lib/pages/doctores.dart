@@ -17,14 +17,26 @@ class DoctoresPage extends StatefulWidget {
 
 class _DoctoresPageState extends State<DoctoresPage> {
   List<Map<String, dynamic>> medicos = [];
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _loadMedicos();
+    _searchController.addListener(_loadMedicos);
   }
 
   _loadMedicos() async {
     medicos = await MedicosDB.getMedicos();
+
+    String searchText = _searchController.text;
+    if (searchText.isNotEmpty) {
+      medicos = medicos.where((medico) {
+        String nombreDoctor = medico['nom_doctor'].toLowerCase();
+        String especialidadDoctor = medico['especialidad'].toLowerCase();
+        return nombreDoctor.contains(searchText.toLowerCase()) || especialidadDoctor.contains(searchText.toLowerCase());
+      }).toList();
+    }
     setState(() {});
   }
 
@@ -46,9 +58,10 @@ class _DoctoresPageState extends State<DoctoresPage> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            const TextField(
+             TextField(
+              controller: _searchController,
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 labelText: "Buscar",
                 filled: true,
