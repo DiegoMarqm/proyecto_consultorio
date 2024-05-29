@@ -33,7 +33,7 @@ class CitasDB {
   }
 
   static Future<List<Map<String, dynamic>>> getCitasFecha(
-      String fecha, nombre) async {
+      String fecha, String nombre) async {
     try {
       actualizarCitasAntiguas();
       final citas = await coleccionCitas
