@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/cancelacionCita.dart';
+import 'package:proyecto_consultorio/db/citas.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
-class CitaAgendada extends StatelessWidget {
-  const CitaAgendada({super.key});
+import '../db/medicos.dart';
+
+class CitaAgendada extends StatefulWidget {
+  final Map<String, dynamic>? doctorData;
+
+  const CitaAgendada({Key? key, this.doctorData}) : super(key: key);
+
+  @override
+  State<CitaAgendada> createState() => _CitaAgendadaState();
+}
+
+class _CitaAgendadaState extends State<CitaAgendada> {
+  Map<String, dynamic>? doctorInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDoctorInfo();
+  }
+
+  _loadDoctorInfo() async {
+    var doctorList = await MedicosDB.getMedicoInfo(widget.doctorData?['nom_doctor']);
+    if (doctorList.isNotEmpty) {
+      doctorInfo = doctorList[0];
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +72,8 @@ class CitaAgendada extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/house.jpg',
+                          child: Image.network(
+                            doctorInfo?['foto']?? '',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -58,7 +85,7 @@ class CitaAgendada extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dr. Gregory House',
+                        widget.doctorData?['nom_doctor'] ?? '',
                         style: GoogleFonts.openSans(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -67,7 +94,7 @@ class CitaAgendada extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Nefrología',
+                        doctorInfo?['especialidad']?? '',
                         style: GoogleFonts.openSans(
                           fontSize: 18,
                           color: const Color(0xFF7BC1B7),
@@ -84,7 +111,14 @@ class CitaAgendada extends StatelessWidget {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '\$1200',
+                              text: '\$',
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                color: const Color(0xFF7BC1B7),
+                              ),
+                            ),
+                            TextSpan(
+                              text: doctorInfo?['costo']?? '',
                               style: GoogleFonts.openSans(
                                 fontSize: 18,
                                 color: const Color(0xFF7BC1B7),
@@ -114,7 +148,7 @@ class CitaAgendada extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  '25 de mayo de 2024',
+                  widget.doctorData?['fecha'] ?? '',
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                   ),
@@ -136,7 +170,7 @@ class CitaAgendada extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  '9:00 AM',
+                  widget.doctorData?['hr_cita'] ?? '',
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                   ),
@@ -158,7 +192,7 @@ class CitaAgendada extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  'Agendada',
+                  widget.doctorData?['estado'] ?? '',
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                   ),

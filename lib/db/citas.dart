@@ -67,6 +67,7 @@ class CitasDB {
     }
   }
 
+
   static Future<void> actualizarCitasAntiguas() async {
     try {
       final citas = await coleccionCitas.find({'estado':'Pendiente'}).toList();

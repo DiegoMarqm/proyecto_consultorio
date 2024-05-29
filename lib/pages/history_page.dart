@@ -55,7 +55,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CitaAgendada(),
+                      builder: (context) =>  CitaAgendada(doctorData: cita),
                     ),
                   );
                 },
