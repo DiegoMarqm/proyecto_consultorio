@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:intl/intl.dart';
 import 'package:proyecto_consultorio/utils/constantes.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -40,10 +41,11 @@ class CitasDB {
       return [];
     }
   }
-  static Future<bool> getCitasDocUser(String nombre, String nombreUser) async {
+  static Future<bool> getCitasDocUser(String nombreDoc, String nombreUser) async {
     try {
+      actualizarCitasAntiguas();
       final citas = await coleccionCitas.find(
-          {'nom_doctor': nombre, 'nom_user': nombreUser, 'estado': 'Pendiente'})
+          {'nom_doctor': nombreDoc, 'nom_user': nombreUser, 'estado': 'Pendiente'})
           .toList();
       if (citas.isNotEmpty) {
         return true;
@@ -62,6 +64,38 @@ class CitasDB {
     } catch (e) {
       print('Error al obtener las citas: $e');
       return [];
+    }
+  }
+
+  static Future<void> actualizarCitasAntiguas() async {
+    try {
+      final citas = await coleccionCitas.find({'estado':'Pendiente'}).toList();
+      final ahora = DateTime.now();
+      final formatoFecha = DateFormat('dd MMMM yyyy');
+      final formatoHora = DateFormat('hh:mm a');
+      String limpiarFecha(String fecha) {
+        return fecha.replaceAll(' de ', ' ');
+      }
+      for (var cita in citas) {
+        try {
+          final fechaLimpia = limpiarFecha(cita['fecha']);
+          final fechaCita = formatoFecha.parse(fechaLimpia);
+          final horaCita = formatoHora.parse(cita['hr_cita']);
+          final fechaHoraCita = DateTime(fechaCita.year, fechaCita.month, fechaCita.day, horaCita.hour, horaCita.minute);
+
+          if (fechaHoraCita.isBefore(ahora) || fechaHoraCita.isAtSameMomentAs(ahora)) {
+            await coleccionCitas.update(
+              where.id(cita['_id']),
+              modify.set('estado', 'Atendida'),
+            );
+            print('Cita actualizada a atendida: ${cita['_id']}');
+          }
+        } catch (e) {
+          print('Error al procesar la cita: ${cita['_id']}, Error: $e');
+        }
+      }
+    } catch (e) {
+      print('Error al actualizar las citas: $e');
     }
   }
 }
