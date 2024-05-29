@@ -49,7 +49,7 @@ class _HistoryPageState extends State<HistoryPage> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: citas.length,
             itemBuilder: (context, index) {
-              final cita = citas[index];
+              final cita = citas.reversed.toList()[index];
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
