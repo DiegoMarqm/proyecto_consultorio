@@ -34,14 +34,10 @@ class UserDB{
 
   static Future<void> updateContra(String _usuario, String contra) async {
     try {
-
-      // Actualización en la base de datos
       final result = await coleccionUsuarios.update(
           mongo.where.eq('nom_user', _usuario),
           mongo.modify.set('pass', contra)
       );
-
-      // Verificación del resultado
       if (result['nModified'] == 0) {
         print('No se encontró el usuario o la contraseña ya es la misma.');
       } else {

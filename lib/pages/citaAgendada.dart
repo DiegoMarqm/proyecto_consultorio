@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/pages/cancelacionCita.dart';
 import 'package:proyecto_consultorio/db/citas.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 import '../db/medicos.dart';
 
@@ -17,7 +16,7 @@ class CitaAgendada extends StatefulWidget {
 
 class _CitaAgendadaState extends State<CitaAgendada> {
   Map<String, dynamic>? doctorInfo;
-
+  bool citaPendeiente = true;
   @override
   void initState() {
     super.initState();
@@ -27,11 +26,22 @@ class _CitaAgendadaState extends State<CitaAgendada> {
   _loadDoctorInfo() async {
     var doctorList = await MedicosDB.getMedicoInfo(widget.doctorData?['nom_doctor']);
     if (doctorList.isNotEmpty) {
-      doctorInfo = doctorList[0];
-      setState(() {});
+      setState(() {
+        doctorInfo = doctorList[0];
+      });
+    }
+    if(widget.doctorData?['estado']!='Pendiente'){
+      setState(() {
+        citaPendeiente = false;
+      });
     }
   }
-
+_checkState(){
+    if(widget.doctorData?['estado']=='Pendiente'){
+      CitasDB.cancelarCita(widget.doctorData?['nom_doctor'], widget.doctorData?['fecha'], widget.doctorData?['hr_cita']);
+      return true;
+    }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,25 +209,28 @@ class _CitaAgendadaState extends State<CitaAgendada> {
                 ),
               ),
               const SizedBox(height: 40),
+
               Center(
                 child: Column(
-                  children: [
-                    ElevatedButton(
+                  children: <Widget>[
+                    citaPendeiente
+                        ? ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => cancelacionCita(),
-                          ),
-                        );
+                        if (_checkState()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => cancelacionCita(),
+                            ),
+                          );
+                        }
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF7BC1B7).withOpacity(0.75),
                         ),
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                          const EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 100, vertical: 8),
                         ),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
@@ -236,7 +249,8 @@ class _CitaAgendadaState extends State<CitaAgendada> {
                           ),
                         ),
                       ),
-                    ),
+                    )
+                        : Container(), // Si la cita no está pendiente, no se muestra el botón
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
