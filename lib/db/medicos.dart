@@ -29,6 +29,17 @@ class MedicosDB{
     }
   }
 
+  static Future<List<Map<String, dynamic>>> getMedicoInfo(String nombre) async {
+    try {
+      final medico = await coleccionMedicos.find({'nom_doctor':nombre}).toList();
+      print("Info del medico obtenido con exito");
+      return medico;
+    } catch (e) {
+      print('Error al obtener las citas: $e');
+      return [];
+    }
+  }
+
   static Future<List<Map<String, dynamic>>> getMedicosAleatorios() async{
     try {
       final medicosAle = await coleccionMedicos.aggregateToStream([
