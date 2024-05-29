@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_consultorio/db/usuarios.dart';
 import 'package:proyecto_consultorio/pages/exitoContra.dart';
 import 'package:proyecto_consultorio/utils/storage.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 class changePass extends StatefulWidget {
   @override
