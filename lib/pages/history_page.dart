@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_consultorio/db/citas.dart';
 import 'package:proyecto_consultorio/pages/citaAgendada.dart';
@@ -12,16 +13,18 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<Map<String, dynamic>> citas = [];
+  List<Map<String, dynamic>> citas = [];  //Lista de citas del usuario
+  bool isLoading = true;
 
   @override
-  void initState() {
+  void initState() {  //Método llamado al crear el estado del widget. Inicializa la carga de citas
     super.initState();
     _loadCitas();
   }
 
-  _loadCitas() async {
+  _loadCitas() async {  //Método asíncrono que carga las citas del usuario desde la base de datos. Utiliza getSessionData para obtener los datos del usuario, conecta a la base de datos y obtiene las citas del usuario.
     Map<String, dynamic> datosusuario = await getSessionData();
+    isLoading = true;
     await CitasDB.conecctCitas();
     final nuevasCitas = await CitasDB.getCitasUsuario(datosusuario['nombre']);
     if (mounted) {
@@ -29,6 +32,10 @@ class _HistoryPageState extends State<HistoryPage> {
         citas = nuevasCitas;
       });
     }
+    setState(() {
+      isLoading =
+      false; // Oculta la animación de carga al finalizar la carga de médicos
+    });
   }
 
   @override
@@ -36,7 +43,12 @@ class _HistoryPageState extends State<HistoryPage> {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: isLoading
+            ? [ const Column(
+            children:[
+              SizedBox(height: 250),
+              Center(child: CircularProgressIndicator())] )]
+            :[
           const Padding(
             padding: EdgeInsets.only(left: 15, top: 30, right: 10),
             child: Text(
@@ -44,12 +56,13 @@ class _HistoryPageState extends State<HistoryPage> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),
+
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: citas.length,
             itemBuilder: (context, index) {
-              final cita = citas.reversed.toList()[index];
+              final cita = citas.reversed.toList()[index];  // Invierte el orden de las citas para mostrar las más recientes primero.
 
               Color iconColor;
               if(cita['estado'] == 'Pendiente') {

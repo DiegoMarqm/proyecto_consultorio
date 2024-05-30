@@ -5,22 +5,22 @@ import 'package:proyecto_consultorio/pages/login.dart';
 
 import '../utils/storage.dart';
 
-class perfil extends StatefulWidget {
+class perfil extends StatefulWidget {  //perfil es un StatefulWidget porque su estado puede cambiar durante la ejecución de la aplicación. Esto es necesario porque los datos del usuario se cargan de manera asíncrona.
   @override
   State<perfil> createState() => _perfilState();
 }
 
-class _perfilState extends State<perfil> {
+class _perfilState extends State<perfil> {  //Lista de datos del usuario, inicialmente con valores predeterminados.
   List<Map<String, dynamic>> userData = [
     {'value': 'Luis Gomez Perez', 'icon': Icons.person},
     {'value': '4812635968', 'icon': Icons.phone},
   ];
   @override
-  void initState() {
+  void initState() {  //Método que se llama cuando el widget se inserta en el árbol de widgets. Llama a _loadData para cargar los datos del usuario.
     super.initState();
     _loadData();
   }
-  Future<void> _loadData() async {
+  Future<void> _loadData() async {  // Método asíncrono que obtiene los datos del usuario de la sesión y actualiza el estado.
     Map<String, dynamic> datosusuario = await getSessionData();
     if (datosusuario.isNotEmpty) {
       setState(() {
@@ -48,7 +48,7 @@ class _perfilState extends State<perfil> {
                   ),
                 ),
               ),
-              for (var data in userData)
+              for (var data in userData)  //Itera sobre userData y muestra cada dato del usuario en una fila con un ícono y texto.
                 Column(
                   children: [
                     const SizedBox(height: 30),
@@ -160,7 +160,7 @@ class _perfilState extends State<perfil> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(
+                  child: Text(  //Al presionarlo, se elimina la información de sesión y se redirige al usuario a la página de inicio de sesión.
                     'Cerrar sesión',
                     style: GoogleFonts.openSans(
                       fontSize: 18,

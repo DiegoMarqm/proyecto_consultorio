@@ -5,7 +5,7 @@ import 'cita.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MedicosDB.conecctMedicos();
+  await MedicosDB.conecctMedicos();  //Se conecta a la base de datos de médicos.
 }
 
 class DoctoresPage extends StatefulWidget {
@@ -16,19 +16,19 @@ class DoctoresPage extends StatefulWidget {
 }
 
 class _DoctoresPageState extends State<DoctoresPage> {
-  List<Map<String, dynamic>> medicos = [];
+  List<Map<String, dynamic>> medicos = [];  // Lista que almacena la información de los médicos.
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadMedicos();
-    _searchController.addListener(_loadMedicos);
+    _searchController.addListener(_loadMedicos);  //Controlador de texto para la búsqueda.
   }
 
-  _loadMedicos() async {
+  _loadMedicos() async {  //cargar los datos de los médicos y añade un listener al controlador de búsqueda
     medicos = await MedicosDB.getMedicos();
-
+    //Método asíncrono que obtiene los datos de los médicos y filtra los resultados en función del texto de búsqueda.
     String searchText = _searchController.text;
     if (searchText.isNotEmpty) {
       medicos = medicos.where((medico) {

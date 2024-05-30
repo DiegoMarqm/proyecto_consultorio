@@ -36,7 +36,7 @@ class _CitaAgendadaState extends State<CitaAgendada> {
       });
     }
   }
-_checkState(){
+_checkState(){  //se utiliza para cancelar la cita si está pendiente.
     if(widget.doctorData?['estado']=='Pendiente'){
       CitasDB.cancelarCita(widget.doctorData?['nom_doctor'], widget.doctorData?['fecha'], widget.doctorData?['hr_cita']);
       return true;

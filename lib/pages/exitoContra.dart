@@ -45,10 +45,10 @@ class exitoContra extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: ElevatedButton(
                 onPressed: () {
+                  Navigator.pop(context);  //Elimina la pantalla actual de la pila de navegación.
                   Navigator.pop(context);
-                  Navigator.pop(context);
-                  deleteSessionData();
-                  Navigator.pushReplacement(
+                  deleteSessionData();  //Elimina los datos de sesión.
+                  Navigator.pushReplacement(  //Navega a la pantalla de inicio de sesión (login) reemplazando la pantalla actual en la pila de navegación.
                       context,
                       MaterialPageRoute(
                           builder: (context) => login()),);
