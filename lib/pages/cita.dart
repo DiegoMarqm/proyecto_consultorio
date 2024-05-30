@@ -46,19 +46,7 @@ class _CitaState extends State<Cita> {
       citaRegistrada = citaExistente;
     });
     if (!citaRegistrada) {
-      final citas = await CitasDB.getCitasFecha(fecha, nombreDoc);
-      if (citas.isNotEmpty) {
-        setState(() {
-          timeSlots.clear();
-          List<String> horas = citas.map((cita) => cita['hr_cita'] as String).toList();
-          _generateVariableTimeSlots(horas);
-        });
-      } else {
-        setState(() {
-          timeSlots.clear();
-          _generateTimeSlots();
-        });
-      }
+      _getCitasFecha(fecha, nombreDoc);
     }
   }
 
@@ -75,6 +63,23 @@ class _CitaState extends State<Cita> {
     }
   }
 
+  Future<void> _getCitasFecha(fecha, nombreDoc) async {
+    final citas = await CitasDB.getCitasFecha(fecha, nombreDoc);
+    print(citas);
+    if (citas.isNotEmpty) {
+      setState(() {
+        timeSlots.clear();
+        List<String> horas = citas.map((cita) => cita['hr_cita'] as String).toList();
+        _generateVariableTimeSlots(horas);
+      });
+    } else {
+      setState(() {
+        timeSlots.clear();
+        _generateTimeSlots();
+      });
+    }
+  }
+
   Future<void> _registrarCita() async {
     if (_selectedTimeIndex == null) {
       return;
@@ -83,7 +88,7 @@ class _CitaState extends State<Cita> {
     Map<String, dynamic> infoCita = {
       'nom_user': datosusuario['nombre'],
       'nom_doctor': widget.doctors[0]['name'],
-      'fecha': DateFormat('dd \'de\' MMMM yyyy').format(_selectedDay),
+      'fecha': DateFormat('dd-MM-yyyy').format(_selectedDay),
       'hr_cita': timeSlots[_selectedTimeIndex!],
       'estado': 'Pendiente'
     };
@@ -220,9 +225,8 @@ class _CitaState extends State<Cita> {
                       _selectedDay = selectedDay;
                       _focusedDay = selectedDay;
                       _selectedTimeIndex = null;
-                      if (!citaRegistrada) {
-                        _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));
-                      }
+
+                      _getCitasFecha(DateFormat('dd-MM-yyyy').format(_selectedDay),widget.doctors[0]['name']);
                     });
                   }
                 },

@@ -81,16 +81,12 @@ class CitasDB {
     try {
       final citas = await coleccionCitas.find({'estado': 'Pendiente'}).toList();
       final ahora = DateTime.now();
-      final formatoFecha = DateFormat('dd MMMM yyyy');
+      final formatoFecha = DateFormat('dd-MM-yyyy');
       final formatoHora = DateFormat('hh:mm a');
-      String limpiarFecha(String fecha) {
-        return fecha.replaceAll(' de ', ' ');
-      }
 
       for (var cita in citas) {
         try {
-          final fechaLimpia = limpiarFecha(cita['fecha']);
-          final fechaCita = formatoFecha.parse(fechaLimpia);
+          final fechaCita = formatoFecha.parse(cita['fecha']);
           final horaCita = formatoHora.parse(cita['hr_cita']);
           final fechaHoraCita = DateTime(fechaCita.year, fechaCita.month,
               fechaCita.day, horaCita.hour, horaCita.minute);
