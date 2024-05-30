@@ -69,6 +69,34 @@ class CitasDB {
       String nombre) async {
     try {
       final citas = await coleccionCitas.find({'nom_user': nombre}).toList();
+      citas.sort((a, b) {
+        // Comparar las fechas
+        final fechaA = DateFormat('dd-MM-yyyy').parse(a['fecha']);
+        final fechaB = DateFormat('dd-MM-yyyy').parse(b['fecha']);
+        final fechaCompare = fechaA.compareTo(fechaB);
+
+        // Si las fechas son iguales, comparar las horas
+        final horaA = DateFormat('hh:mm a').parse(a['hr_cita']);
+        final horaB = DateFormat('hh:mm a').parse(b['hr_cita']);
+        final horaCompare = horaA.compareTo(horaB);
+
+        // Si las fechas y las horas son iguales, comparar los estados
+        if (fechaCompare == 0 && horaCompare == 0) {
+          if (a['estado'] == 'Pendiente' && b['estado'] != 'Pendiente') return -1;
+          if (a['estado'] != 'Pendiente' && b['estado'] == 'Pendiente') return 1;
+          if (a['estado'] == 'Atendido' && b['estado'] != 'Atendido') return -1;
+          if (a['estado'] != 'Atendido' && b['estado'] == 'Atendido') return 1;
+          if (a['estado'] == 'Cancelado' && b['estado'] != 'Cancelado') return -1;
+          if (a['estado'] != 'Cancelado' && b['estado'] == 'Cancelado') return 1;
+        }
+
+        // Si las fechas son iguales, comparar las horas
+        if (fechaCompare == 0) return horaCompare;
+
+        // Comparar las fechas
+        return fechaCompare;
+      });
+
       print("Citas obtenidas con exito");
       return citas;
     } catch (e) {

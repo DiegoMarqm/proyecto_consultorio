@@ -85,7 +85,7 @@ class _HistoryPageState extends State<HistoryPage> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: citas.length,
             itemBuilder: (context, index) {
-              final cita = citas.reversed.toList()[index];  // Invierte el orden de las citas para mostrar las más recientes primero.
+              final cita = citas[index];  // Invierte el orden de las citas para mostrar las más recientes primero.
 
               Color iconColor;
               if(cita['estado'] == 'Pendiente') {
