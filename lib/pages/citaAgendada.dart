@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:proyecto_consultorio/pages/cancelacionCita.dart';
 import 'package:proyecto_consultorio/db/citas.dart';
 
@@ -22,6 +23,28 @@ class _CitaAgendadaState extends State<CitaAgendada> {
     super.initState();
     _loadDoctorInfo();
   }
+
+
+  String convertirFecha(String fechaStr) {
+    // Diccionario para los nombres de los meses en español
+    const Map<int, String> meses = {
+      1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril",
+      5: "Mayo", 6: "Junio", 7: "Julio", 8: "Agosto",
+      9: "Septiembre", 10: "Octubre", 11: "Noviembre", 12: "Diciembre"
+    };
+
+    // Parsear la fecha en el formato dd-MM-yyyy
+    DateTime fecha = DateFormat('dd-MM-yyyy').parse(fechaStr);
+
+    // Extraer día, mes y año
+    int dia = fecha.day;
+    String mes = meses[fecha.month]!;
+    int anio = fecha.year;
+
+    // Formatear la fecha en el nuevo formato
+    return '$dia de $mes del $anio';
+  }
+
 
   _loadDoctorInfo() async {
     var doctorList = await MedicosDB.getMedicoInfo(widget.doctorData?['nom_doctor']);
@@ -158,7 +181,7 @@ _checkState(){  //se utiliza para cancelar la cita si está pendiente.
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  widget.doctorData?['fecha'] ?? '',
+                  convertirFecha(widget.doctorData?['fecha']) ?? '',
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                   ),

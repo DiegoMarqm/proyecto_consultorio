@@ -32,6 +32,28 @@ class _CitaState extends State<Cita> {
     _setConection();
   }
 
+  String convertirFecha(String fechaStr) {
+    const Map<int, String> meses = {
+      1: "enero", 2: "febrero", 3: "marzo", 4: "abril",
+      5: "mayo", 6: "junio", 7: "julio", 8: "agosto",
+      9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
+    };
+
+    // Parsear la fecha en el formato dd-MM-yyyy
+    DateTime fecha = DateFormat('dd-MM-yyyy').parse(fechaStr);
+
+    // Extraer día, mes y año
+    int dia = fecha.day;
+    String mes = meses[fecha.month]!;
+    int anio = fecha.year;
+
+    // Formatear la fecha en el nuevo formato
+    String fechaFormateada = '$dia de $mes del $anio';
+
+    return fechaFormateada;
+  }
+
+
   Future<void> _setConection() async {
     await CitasDB.conecctCitas();
     _getCitas(DateFormat('dd-MM-yyyy').format(_selectedDay));

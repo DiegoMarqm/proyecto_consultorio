@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:proyecto_consultorio/db/citas.dart';
 import 'package:proyecto_consultorio/pages/citaAgendada.dart';
 
@@ -21,6 +22,28 @@ class _HistoryPageState extends State<HistoryPage> {
     super.initState();
     _loadCitas();
   }
+
+
+  String convertirFecha(String fechaStr) {
+    // Diccionario para los nombres de los meses en español
+    const Map<int, String> meses = {
+      1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril",
+      5: "Mayo", 6: "Junio", 7: "Julio", 8: "Agosto",
+      9: "Septiembre", 10: "Octubre", 11: "Noviembre", 12: "Diciembre"
+    };
+
+    // Parsear la fecha en el formato dd-MM-yyyy
+    DateTime fecha = DateFormat('dd-MM-yyyy').parse(fechaStr);
+
+    // Extraer día, mes y año
+    int dia = fecha.day;
+    String mes = meses[fecha.month]!;
+    int anio = fecha.year;
+
+    // Formatear la fecha en el nuevo formato
+    return '$dia de $mes del $anio';
+  }
+
 
   _loadCitas() async {  //Método asíncrono que carga las citas del usuario desde la base de datos. Utiliza getSessionData para obtener los datos del usuario, conecta a la base de datos y obtiene las citas del usuario.
     Map<String, dynamic> datosusuario = await getSessionData();
@@ -108,7 +131,7 @@ class _HistoryPageState extends State<HistoryPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                cita["fecha"] ?? '',
+                                convertirFecha(cita["fecha"]) ?? '',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
