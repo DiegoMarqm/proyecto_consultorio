@@ -15,13 +15,13 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
-  void initState() {
+  void initState() { // Inicializa _tabController con 3 pestañas
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
-  void dispose() {
+  void dispose() {  //Libera recursos asociados al TabController cuando el widget se elimina
     _tabController.dispose();
     super.dispose();
   }
@@ -68,7 +68,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          Expanded(
+          Expanded(  //redirige a las pantallas que son
             child: TabBarView(
               controller: _tabController,
               children: [

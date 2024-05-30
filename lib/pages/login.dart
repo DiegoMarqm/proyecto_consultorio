@@ -9,7 +9,7 @@ import 'package:proyecto_consultorio/pages/inicio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await UserDB.conecctUsers();
+  await UserDB.conecctUsers(); //se conecta a la base de datos de usuarios
   runApp(login());
 }
 
@@ -20,12 +20,12 @@ class login extends StatefulWidget {
 
 class _loginState extends State<login> {
   bool _ocultarContra = true;
-  String _telefonoRe = "";
+  String _telefonoRe = ""; //almacena los datos
   String _contrasenaRe = "";
 
-  List<Map<String, dynamic>> usuarios = [];
+  List<Map<String, dynamic>> usuarios = []; //obtiene la lista de los usuarios de bd
 
-  Future<void> obtenerUsuarios() async {
+  Future<void> obtenerUsuarios() async {  //función asíncrona que obtiene los usuarios de la base de datos y actualiza el estado
     final usuarios = await UserDB.getUsuarios();
     setState(() {
       this.usuarios = usuarios;
@@ -33,7 +33,7 @@ class _loginState extends State<login> {
   }
 
   @override
-  void initState() {
+  void initState() {  //Inicializa el estado del widget y llama a obtenerUsuarios
     super.initState();
     obtenerUsuarios();
   }
@@ -189,7 +189,7 @@ class _loginState extends State<login> {
               child: SizedBox(
                 child: ElevatedButton(
                   onPressed: () {
-                    _validarLogin();
+                    _validarLogin(); //la funcion se encuentra abajo
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B8FAC),
@@ -251,7 +251,7 @@ class _loginState extends State<login> {
     );
   }
 
-  Future<void> _validarLogin() async {
+  Future<void> _validarLogin() async {  //Valida los datos ingresados comparándolos con los usuarios de la lista. Si los datos son correctos, guarda la sesión y navega a la pantalla de inicio. Si no coinciden, muestra un mensaje de error.
     for (final usuario in usuarios) {
       if (usuario['telefono'] == _telefonoRe &&
           usuario['pass'] == _contrasenaRe) {

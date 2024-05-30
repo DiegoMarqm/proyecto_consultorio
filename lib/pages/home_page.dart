@@ -5,9 +5,10 @@ import 'package:proyecto_consultorio/pages/cita.dart';
 import 'package:proyecto_consultorio/pages/doctores.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await MedicosDB.conecctMedicos();
-  runApp(const HomePage());
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Asegura que los widgets de Flutter estén inicializados antes de ejecutar cualquier código
+  await MedicosDB.conecctMedicos(); //Conecta a la base de datos de médicos
+  runApp(const HomePage()); //Ejecuta la app
 }
 
 class HomePage extends StatefulWidget {
@@ -18,38 +19,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> medicos = [];
-  List<Map<String, dynamic>> medicosAle = [];
-  final TextEditingController busquedaController = TextEditingController();
+  List<Map<String, dynamic>> medicos = []; //lista de medicos
+  List<Map<String, dynamic>> medicosAle = []; //medicos aleatorios
+  final TextEditingController busquedaController =
+      TextEditingController(); //controla el texto de ls busquedas
+  bool isLoading = true;
 
   @override
   void initState() {
+    //Inicializa la carga de médicos y configura un listener para el campo de búsqueda.
     super.initState();
     _loadMedicos();
     busquedaController.addListener(_loadMedicos);
   }
 
   _loadMedicos() async {
+    //Método que carga la lista de médicos y la filtra según el texto de búsqueda. Si no hay texto de búsqueda, muestra médicos aleatorios.
     medicos = await MedicosDB.getMedicos();
     medicosAle = await MedicosDB.getMedicosAleatorios();
+    isLoading = true;
 
     String busquedaText = busquedaController.text;
 
-    if(busquedaText.isNotEmpty) {
+    if (busquedaText.isNotEmpty) {
       medicos = medicos.where((doctor) {
         String nombreDoctor = doctor['nom_doctor'].toLowerCase();
         String especialidadDoctor = doctor['especialidad'].toLowerCase();
-        return nombreDoctor.contains(busquedaText.toLowerCase()) || especialidadDoctor.contains(busquedaText.toLowerCase());
+        return nombreDoctor.contains(busquedaText.toLowerCase()) ||
+            especialidadDoctor.contains(busquedaText.toLowerCase());
       }).toList();
-    }else{
+    } else {
       setState(() {
         medicos = medicosAle;
       });
     }
+    setState(() {
+      isLoading =
+          false; // Oculta la animación de carga al finalizar la carga de médicos
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    //Lista de especialidades únicas de los médicos, ordenada alfabéticamente.
     List<String> especialidades = medicos
         .map((doctor) => doctor['especialidad'] as String)
         .toSet()
@@ -58,8 +70,9 @@ class _HomePageState extends State<HomePage> {
 
     return ListView(
       children: [
-         Padding(
-          padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 5),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 5),
           child: TextField(
             controller: busquedaController,
             keyboardType: TextInputType.text,
@@ -80,16 +93,17 @@ class _HomePageState extends State<HomePage> {
         Container(
           alignment: Alignment.centerLeft,
           child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 15, top: 30, right: 10, bottom: 5),
-              child: Text(
-                "Especialidades",
-                style: GoogleFonts.openSans(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              )),
+            padding:
+                const EdgeInsets.only(left: 15, top: 30, right: 10, bottom: 5),
+            child: Text(
+              "Especialidades",
+              style: GoogleFonts.openSans(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15, top: 15),
@@ -140,16 +154,17 @@ class _HomePageState extends State<HomePage> {
             Container(
               alignment: Alignment.centerLeft,
               child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, top: 30, right: 10, bottom: 5),
-                  child: Text(
-                    "Doctores",
-                    style: GoogleFonts.openSans(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  )),
+                padding: const EdgeInsets.only(
+                    left: 15, top: 30, right: 10, bottom: 5),
+                child: Text(
+                  "Doctores",
+                  style: GoogleFonts.openSans(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -174,97 +189,105 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
           child: Column(
-            children: medicos.map((doc) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(210, 235, 231, .3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Container(
-                          width: 150,
-                          height: 190,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(doc['foto'] ?? ''),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+            children: isLoading
+                ? [CircularProgressIndicator()]
+                : medicos.map((doc) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(210, 235, 231, .3),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Row(
                           children: [
-                            const SizedBox(height: 30),
-                            Text(
-                              doc['nom_doctor'] ?? '',
-                              style: GoogleFonts.openSans(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                width: 150,
+                                height: 190,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(doc['foto'] ?? ''),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 15),
-                            Text(
-                              "Especialidad:",
-                              style: GoogleFonts.openSans(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: const Color.fromRGBO(133, 133, 133, 1),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(height: 30),
+                                  Text(
+                                    doc['nom_doctor'] ?? '',
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    "Especialidad:",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color.fromRGBO(
+                                          133, 133, 133, 1),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${doc['especialidad']}",
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 17,
+                                      color: const Color.fromRGBO(
+                                          133, 133, 133, 1),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Cita(doctors: [
+                                                  {
+                                                    'name': doc['nom_doctor'],
+                                                    'specialty':
+                                                        doc['especialidad'],
+                                                    'consultation_fee':
+                                                        doc['costo'],
+                                                    'foto': doc['foto'],
+                                                  }
+                                                ])),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          const Color.fromRGBO(11, 143, 172, 1),
+                                      minimumSize: const Size(20, 30),
+                                    ),
+                                    child: const Text(
+                                      "Ver",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15)
+                                ],
                               ),
-                            ),
-                            Text(
-                              "${doc['especialidad']}",
-                              style: GoogleFonts.openSans(
-                                fontSize: 17,
-                                color: const Color.fromRGBO(133, 133, 133, 1),
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Cita(doctors:
-                                            [{
-                                              'name': doc['nom_doctor'],
-                                              'specialty': doc['especialidad'],
-                                              'consultation_fee': doc['costo'],
-                                              'foto': doc['foto'],
-                                            }]
-                                          )),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromRGBO(11, 143, 172, 1),
-                                minimumSize: const Size(20, 30),
-                              ),
-                              child: const Text(
-                                "Ver",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            const SizedBox(height: 15)
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
+                      ),
+                    );
+                  }).toList(),
           ),
         )
       ],

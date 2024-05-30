@@ -10,9 +10,9 @@ class sign extends StatefulWidget {
   State<sign> createState() => _signState();
 }
 
-class _signState extends State<sign> {
-  bool _ocultarContra = true;
-
+class _signState extends State<sign> {  //es la clase que implementa el estado de la pantalla de registro.
+  bool _ocultarContra = true;  //Variable booleana que indica si la contraseña debe mostrarse como texto claro o no.
+  //Controladores de texto para los campos de nombre, teléfono y contraseña, respectivamente.
   final _nombreController = TextEditingController();
   final _telefonoController = TextEditingController();
   final _contrasenaController = TextEditingController();
@@ -180,7 +180,7 @@ class _signState extends State<sign> {
               padding: const EdgeInsets.only(top: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  Future<void> _registrarUsuario() async {
+                  Future<void> _registrarUsuario() async {  //Esta función valida los campos ingresados y, si son válidos, registra al usuario en la base de datos. Si hay algún error durante el registro, muestra un mensaje de error.
                     String nombre = _nombreController.text;
                     String telefono = _telefonoController.text;
                     String contrasena = _contrasenaController.text;
