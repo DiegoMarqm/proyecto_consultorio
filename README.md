@@ -10,7 +10,7 @@
 
 ### Docentes
 * MCS. Jaime De Jesús Delgado Meraz.
-* MAE. Horacio García Aldape.
+* ME. Horacio García Aldape.
 
 ### Cuentas de acceso
 No hay alguna cuenta que administre el sistema, ya que el sistema es para uso de los usuarios que deseen solicitar una cita medica.
